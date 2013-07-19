@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <form action="" method="post" class="form-horizontal" id="goal-form">
+    <h2 class="form-login-heading">Create a goal thingy</h2>
+    {%csrf_token%}
+    <div class="control-group">
+      <div class="controls">
+        <input id="id_goal_name" name="goal_name" value="{{form.goal_name.value|default_if_none:''}}" placeholder="Name the goal!" type="text"/>
+        <span class="help-inline">
+        {% for e in form.goal_name.errors %}
+          {{e|escape}}
+        {% endfor %}
+        </span>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Select a timeframe</label>
+      <div class="controls">
+        <select id="id_time_frame_len" name="time_frame_len">
+          <option value="d" selected="selected">Daily</option>
+          <option value="w">Weekly</option>
+          <option value="m">Monthly</option>
+        </select>
+        <span class="help-inline">
+        {% for e in form.time_frame_len.errors %}
+          {{e|escape}}
+        {% endfor %}
+        </span>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">How many per:</label>
+      <div class="controls">
+        <select id="id_num_per_frame" name="num_per_frame">
+          <option value="1" selected="selected">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+        <span class="help-inline">
+        {% for e in form.num_per_frame.errors %}
+          {{e|escape}}
+        {% endfor %}
+        </span>
+      </div>
+    </div>
+    <div class="control-group controls">
+      <button class="btn btn-large btn-primary" type="submit">Create!</button>
+    </div>
+  </form>
+
+{{form}}
+{% endblock %}

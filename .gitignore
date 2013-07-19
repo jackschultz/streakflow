@@ -1,0 +1,15 @@
+*.py[cod]
+*pyc
+
+*.swp
+
+database.db
+
+#packages
+*.egg
+*.egg-info
+eggs
+
+pip-log.txt
+
+local_settings.py

@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      {% block title %}StreakFlow{% endblock %}
+    </title>
+    <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" media="screen">
+    <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" media="screen">
+  </head> 
+
+
+  <body>
+    <div id="wrap">
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="/">StreakFlow</a> 
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li><a href="{% url 'about' %}">About</a></li>
+              </ul> 
+              <ul class="nav pull-right">
+                {%if user.is_authenticated%}
+                  <li><a href="{% url 'profile' %}">Welcome {{user}}!</a></li>
+                  <li><a href="{%url 'auth_logout'%}">Logout</a></li>
+                {% else %}
+                  <li><a href="{%url 'auth_login'%}">Login</a></li>
+                  <li><a href="{%url 'registration_register'%}">Register</a></li>
+                {% endif %}
+              </ul>
+            </div>             
+          </div> 
+        </div> 
+      </div> 
+      <div class="container">
+      {% block body %}
+      {% endblock %}
+      <div id="push"></div>
+    </div>
+      </div>
+    <div id="footer">
+      <div class="container">
+        © 2013 Jack Schultz
+      </div>
+    </div>
+
+
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+    <script src="{{STATIC_URL}}js/goals.js"></script>
+  </body>
+
+</html>

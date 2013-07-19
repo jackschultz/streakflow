@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="row">
+  <h1>{{goal}}</h1>
+</div>
+
+<div class="row">
+{% for tf in goal.time_frames.all %}
+
+  {{tf}}
+  {% for obj in tf.objectives.all %}
+    <span class="goal-objective" oid="{{obj.pk}}" tfid="{{tf.pk}}" gid="{{goal.pk}}" >{%csrf_token%} <span class="goal-obj-info">{{obj.completed}}</span></span>
+  {% endfor %}
+{% endfor %}
+
+</div>
+
+
+
+
+{% comment %}
+<div class="row">
+  <div class="goal-streak-consecutive">
+    <h1 class="badge badge-info goal-streak-badge-prof">{{goal.consecutive}}</h1> consecutive
+    {% ifequal goal.time_frame "Daily" %}
+     days
+    {% endifequal %}
+    {% ifequal goal.time_frame "Weekly" %}
+    weeks
+    {% endifequal %}
+    {% ifequal goal.time_frame "Monthly" %}
+    months
+    {% endifequal %}
+  </div>
+</div>
+
+{% endcomment %}
+
+<div>
+<a href="{% url 'goal_edit' goal_pk=goal.pk %}">edit</a>
+</div>
+
+
+
+ {% endblock %}

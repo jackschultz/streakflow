@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+  <form action="" method="post" class="form-horizontal" id="goal-form">
+    <h2 class="form-login-heading">Change your settings</h2>
+    {%csrf_token%}
+    <div class="control-group">
+      <label class="control-label">Select a timezone</label>
+      <div class="controls">
+        <select id="id_time_zone" name="time_zone">
+        {% for tz in timezones %}
+          <option {% ifequal member.time_zone tz %} selected="selected"{% endifequal %} value="{{tz}}">{{tz}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="control-group controls">
+      <button class="btn btn-large btn-primary" type="submit">Change your info</button>
+    </div>
+  </form>
+
+
+<div>
+</div>
+
+{% endblock %}

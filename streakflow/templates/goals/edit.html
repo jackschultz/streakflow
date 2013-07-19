@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <form action="" method="post" class="form-horizontal" id="goal-form">
+    <h2 class="form-login-heading">Edit this goal</h2>
+    {%csrf_token%}
+    <div class="control-group">
+      <div class="controls">
+        <input id="id_goal_name" class="uneditable-input" name="goal_name" value="{{goal.goal_name}}" readonly type="text"/>
+        <span class="help-inline">
+        {% for e in form.goal_name.errors %}
+          {{e|escape}}
+        {% endfor %}
+        </span>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Select a timeframe</label>
+      <div class="controls">
+        <select id="id_time_frame" name="time_frame">
+         {% ifequal goal.time_frame 'Monthly' %}
+          <option value="Daily">Daily</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Monthly" selected="selected">Monthly</option>
+        {% endifequal %}
+         {% ifequal goal.time_frame 'Weekly' %}
+          <option value="Daily">Daily</option>
+          <option value="Weekly" selected="selected">Weekly</option>
+        {% endifequal %}
+         {% ifequal goal.time_frame 'Daily' %}
+          <option value="Daily" selected="selected">Daily</option>
+        {% endifequal %}
+        </select>
+        <span class="help-inline">
+        {% for e in form.time_frame.errors %}
+          {{e|escape}}
+        {% endfor %}
+        </span>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">How many per:</label>
+      <div class="controls">
+        <select id="id_times_in_frame" name="times_in_frame">
+         {% ifequal goal.times_in_frame 1 %}
+          <option value="1" selected="selected">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        {% endifequal %}
+         {% ifequal goal.times_in_frame 2 %}
+          <option value="2" selected="selected">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        {% endifequal %}
+         {% ifequal goal.times_in_frame 3 %}
+          <option value="3" selected="selected">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        {% endifequal %}
+         {% ifequal goal.times_in_frame 4 %}
+          <option value="4" selected="selected">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        {% endifequal %}
+         {% ifequal goal.times_in_frame 5 %}
+          <option value="5" selected="selected">5</option>
+          <option value="6">6</option>
+        {% endifequal %}
+         {% ifequal goal.times_in_frame 6 %}
+          <option value="6" selected="selected">6</option>
+        {% endifequal %}
+        </select>
+        <span class="help-inline">
+        {% for e in form.times_in_frame.errors %}
+          {{e|escape}}
+        {% endfor %}
+        </span>
+      </div>
+    </div>
+    <div class="control-group controls">
+      <button class="btn btn-large btn-primary" type="submit">Change the goal</button>
+    </div>
+  </form>
+
+
+<div>
+  <a href="{% url 'goal_delete' goal_pk=goal.pk %}">delete</a>
+</div>
+
+
+
+{% endblock %}

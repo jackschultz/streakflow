@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <form action="" method="post" class="form-vertical">
+    <h2 class="form-register-heading">Register and start streaking</h2>
+    {%csrf_token%}
+    <div class="control-group">
+      <input id="id_username" name="username" placeholder="username" type="text" value="{{form.username.value|default_if_none:''}}"/>
+      <span class="help-inline">
+      {% for e in form.username.errors %}
+        {{e|escape}}
+      {% endfor %}
+      </span>
+    </div>
+    <div class="control-group">
+      <input id="id_email" name="email" placeholder="email" type="text" value="{{form.email.value|default_if_none:''}}"/>
+      <span class="help-inline">
+      {% for e in form.email.errors %}
+        {{e|escape}}
+      {% endfor %}
+      </span>
+    </div>
+    <div class="control-group">
+      <input id="id_password1" name="password1" placeholder="password1" type="password"/>
+      <span class="help-inline">
+      {% for e in form.password1.errors %}
+        {{e|escape}}
+      {% endfor %}
+      </span>
+    </div>
+    <div class="control-group">
+      <input id="id_password2" name="password2" placeholder="password again!" type="password"/>
+    </div>
+    <div class="control-group">
+      <button class="btn btn-large btn-primary" type="submit">Sign Up</button>
+    </div>
+  </form>
+  <div class="">
+    Already a member? <a href="{% url 'auth_login' %}">Login</a>
+  </div>
+{% endblock %}

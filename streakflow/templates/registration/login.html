@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+  <form action="" method="post" class="form-vertical">
+    <h2 class="form-login-heading">Login to begin streaking</h2>
+    {%csrf_token%}
+    <div class="control-group">
+      <input id="id_username" name="username" placeholder="username" type="text" value="{{form.username.value|default_if_none:''}}"/>
+      <span class="help-inline">
+      {% for e in form.username.errors %}
+        {{e|escape}}
+      {% endfor %}
+      </span>
+    </div>
+    <div class="control-group">
+      <input id="id_password" name="password" placeholder="password" type="password"/>
+      <span class="help-inline">
+      {% for e in form.password.errors %}
+        {{e|escape}}
+      {% endfor %}
+      </span>
+    </div>
+    <div class="control-group">
+      <button class="btn btn-large btn-primary" type="submit">Login</button>
+    </div>
+  </form>
+  <div class="">
+    Not yet a member? <a href="{% url 'registration_register' %}">Register</a>
+  </div>
+
+{% endblock %}
