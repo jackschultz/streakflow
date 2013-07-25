@@ -4,6 +4,7 @@ from django.db.models import Max
 from streakflow.apps.members.models import Member
 import datetime
 import pytz
+import calendar
 import uuid
 import pdb
 
@@ -47,16 +48,49 @@ class Goal(models.Model):
     recent_time_frame = self.time_frames.all().aggregate(Max('end_time'))
     recent_time_frame = recent_time_frame['end_time__max']
     if recent_time_frame is None:
-      latest_date = self.started.date()
+      latest_date = self.started.date()# - datetime.timedelta(10)
     else:
       latest_date = recent_time_frame
     tz = self.member.time_zone
     cur_date = datetime.datetime.now(pytz.timezone(tz)).date()
     while cur_date >= latest_date:
-      next_date = latest_date + datetime.timedelta(days=1)
+      next_date = self.get_next_date(latest_date)
       tf = TimeFrame(num_per_frame=self.num_per_frame, begin_time=latest_date, end_time=next_date, goal=self)
       tf.save()
       latest_date = next_date
+
+  def get_next_date(self, cur_date):
+    if self.time_frame_len == DAILY:
+      end_time = cur_date + datetime.timedelta(days=1)
+    elif self.time_frame_len == WEEKLY:
+      weekday = cur_date.weekday()
+      end_time = cur_date - datetime.timedelta(days=weekday) + datetime.timedelta(days=7) 
+    elif self.time_frame_len == MONTHLY:
+      pdb.set_trace()
+      cur_month = cur_date.month
+      cur_year = cur_date.year
+      cur_day = cur_date.day
+      days_in_month = calendar.monthrange(cur_year,cur_month)[1]
+      end_time = cur_date - datetime.timedelta(days=cur_day) + datetime.timedelta(days=days_in_month+1) 
+    return end_time
+
+  def order_timeframes(self):
+    return self.time_frames.order_by('-begin_time')
+
+  def consecutive_timeframes(self):
+    tfs = self.time_frames.order_by('-begin_time')
+    consec = 0
+    for tf in tfs:
+      fini = True
+      for obj in tf.objectives.all():
+        if not obj.completed:
+          fini = False
+      if fini:
+        consec += 1
+      else:
+        break
+    return consec
+    
 
 class TimeFrame(models.Model):
   num_per_frame = models.IntegerField(default=1)
@@ -82,7 +116,7 @@ class TimeFrame(models.Model):
         obj.save()
 
   def __unicode__(self):
-    return self.end_time.strftime('%A %B %d')
+    return self.begin_time.strftime('%A %B %d')
 
 class Objective(models.Model):
   time_completed = models.DateTimeField(blank=True, null=True, default=None)

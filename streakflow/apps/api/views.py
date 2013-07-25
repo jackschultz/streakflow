@@ -4,9 +4,31 @@ from serializers import GoalSerializer, MemberSerializer, TimeFrameSerializer, O
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status, generics, exceptions
 from permissions import IsOwner
 import pdb
+
+
+
+class GoalList(APIView):
+  model = Goal
+  permission_classes = (IsOwner,)
+
+  def get(self, request, format=None):
+    member = request.user.get_profile()
+    goals = Goal.objects.filter(member=member)
+    for goal in goals:
+      goal.update_timeframes()
+    serializer = GoalSerializer(goals, many=True)
+    return Response(serializer.data)
+  
+  def post(self, request, format=None):
+    serializer = GoalSerializer(data=request.DATA)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class GoalDetail(APIView):
   model = Goal
@@ -17,6 +39,8 @@ class GoalDetail(APIView):
       goal = Goal.objects.get(pk=pk)
       member = request.user.get_profile()
       self.check_object_permissions(request, member)
+      if goal.member != member:
+        raise exceptions.PermissionDenied
       goal.update_timeframes()
       return goal
     except Goal.DoesNotExist:
@@ -39,61 +63,41 @@ class GoalDetail(APIView):
     goal = self.get_object(request, goal_pk)
     goal.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
-   
-class TFDetail(APIView):
-  model = TimeFrame
-  permission_classes = (IsOwner,)
-
-  def get_object(self, request, pk):
-    try:
-      member = request.user.get_profile()
-      self.check_object_permissions(request, member)
-      tf = TimeFrame.objects.get(pk=pk)
-      return tf
-    except TimeFrame.DoesNotExist:
-      raise Http404
-
-  def get(self, request, goal_pk, tf_pk, format=None):
-    tf = self.get_object(request, tf_pk)
-    serializer = TimeFrameSerializer(tf)
-    return Response(serializer.data)
-
+ 
 class ObjectiveDetail(APIView):
   model = Objective
   permission_classes = (IsOwner,)
 
-  def get_object(self, request, pk):
+  def get_object(self, request, opk, gpk):
     try:
       member = request.user.get_profile()
       self.check_object_permissions(request, member)
-      obj = Objective.objects.get(pk=pk)
-      return tf
+      obj = Objective.objects.get(pk=opk)
+      goal = Goal.objects.get(pk=gpk)
+      #check both ownership things
+      if obj.time_frame.goal.member != member:
+        raise exceptions.PermissionDenied
+      if obj.time_frame.goal != goal:
+        raise exceptions.PermissionDenied
+      return obj
     except Objective.DoesNotExist:
       raise Http404
 
-  def get(self, request, goal_pk, tf_pk, obj_pk, format=None):
-    obj = self.get_object(request, obj_pk)
-    serializer = TimeFrameSerializer(obj)
+  def get(self, request, goal_pk, obj_pk, format=None):
+    obj = self.get_object(request, obj_pk, goal_pk)
+    serializer = ObjectiveSerializer(obj)
     return Response(serializer.data)
 
-  def put(self, request, goal_pk, tf_pk, obj_pk, format=None):
-    obj = self.get_object(request, obj_pk)
-    serializer = TimeFrameSerializer(obj, date=request.DATA)
+  def post(self, request, goal_pk, obj_pk, format=None):
+    obj = self.get_object(request, obj_pk, goal_pk)
+    goal = Goal.objects.get(pk=goal_pk)
+    serializer = ObjectiveSerializer(obj, data=request.DATA)
     if serializer.is_valid():
       serializer.save()
-      return Response(serializer.data)
+      info = serializer.data
+      info['consecutive'] = goal.consecutive_timeframes()
+      return Response(info)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQEST)
-
-class ObjectiveList(APIView):
-  model = Objective
-  permission_classes = (IsOwner,)
-
-  def get(self, request, goal_pk, tf_pk, format=None):
-    member = request.user.get_profile()
-    goals = Goal.objects.filter(member=member)
-    serializer = GoalSerializer(goals, many=True)
-    return Response(serializer.data)
-  
 
 class MemberDetail(APIView):
   model = Member
@@ -113,21 +117,3 @@ class MemberDetail(APIView):
     serializer = MemberSerializer(member)
     return Response(serializer.data)
 
-class GoalList(APIView):
-  model = Goal
-  permission_classes = (IsOwner,)
-
-  def get(self, request, format=None):
-    member = request.user.get_profile()
-    goals = Goal.objects.filter(member=member)
-    for goal in goals:
-      goal.update_timeframes()
-    serializer = GoalSerializer(goals, many=True)
-    return Response(serializer.data)
-  
-  def post(self, request, format=None):
-    serializer = GoalSerializer(data=request.DATA)
-    if serializer.is_valid():
-      serializer.save()
-      return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

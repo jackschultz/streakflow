@@ -7,13 +7,17 @@ $(document).on('click', ".goal-objective", function(event) {
     $(this).find('input').each(function() {
       data[$(this).attr('name')] = $(this).attr('value');
     });
+    if ($(this).attr('completed') == "true") {
+      data['completed'] = "0";
+    }
+    else {
+      data['completed'] = "1";
+    }
     data['oid'] = $(this).attr('oid');
     var oid = data['oid'];
     data['gid'] = $(this).attr('gid');
     var gid = data['gid'];
-    data['tfid'] = $(this).attr('tfid');
-    var tfid = data['tfid'];
-    var url = "/goals/" + gid + "/timeframe/" + tfid + "/objectives/" + oid;
+    var url = "/api/goals/" + gid + "/update/" + oid;
     var obj = $(this);
     $.ajax({
       url:url,
@@ -21,14 +25,13 @@ $(document).on('click', ".goal-objective", function(event) {
       data: data,
       dataType: "json",
       success: function(response) {
-        console.log(response);
         obj.find(".goal-obj-info").text(response["completed"]);
+        obj.attr("completed",response["completed"]);
+        $("#goal-consecutive").text(response.consecutive);
       },
     });
 
 
 });
-
-
 
 

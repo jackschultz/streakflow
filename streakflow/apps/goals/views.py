@@ -31,23 +31,23 @@ def goal_create(request):
     context = {'form':form}
     return render_to_response('goals/create.html',context,context_instance=RequestContext(request))
 
-def objective_mark(request, goal_pk, tf_pk, obj_pk):
-  member = get_object_or_404(Member, user=request.user)
-  goal = get_object_or_404(Goal, pk=goal_pk)
-  if goal.member != member: #malicious or something
-    response_data['success'] = 'false'
-    raise Http404
-  if request.is_ajax():
-    response_data = {}
-    obj = get_object_or_404(Objective, pk=obj_pk)
-    obj.completed = not obj.completed
-    obj.save()
-    response_data['success'] = 'true'
-    if obj.completed:
-      response_data['completed'] = 'true'
-    else:
-      response_data['completed'] = 'false'
-    return HttpResponse(json.dumps(response_data), content_type='application/json')
+#def objective_mark(request, goal_pk, tf_pk, obj_pk):
+#  member = get_object_or_404(Member, user=request.user)
+#  goal = get_object_or_404(Goal, pk=goal_pk)
+#  if goal.member != member: #malicious or something
+#    response_data['success'] = 'false'
+#    raise Http404
+#  if request.is_ajax():
+#    response_data = {}
+#    obj = get_object_or_404(Objective, pk=obj_pk)
+#    obj.completed = not obj.completed
+#    obj.save()
+#    response_data['success'] = 'true'
+#    if obj.completed:
+#      response_data['completed'] = 'True'
+#    else:
+#      response_data['completed'] = 'False'
+#    return HttpResponse(json.dumps(response_data), content_type='application/json')
 
 
 def goal_overview(request, goal_pk):
