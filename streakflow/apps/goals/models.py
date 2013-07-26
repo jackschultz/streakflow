@@ -49,7 +49,7 @@ class Goal(models.Model):
     recent_time_frame = recent_time_frame['end_time__max']
     tz = self.member.time_zone
     if recent_time_frame is None:
-      latest_date = self.started.date(pytz.timezone(tz))# - datetime.timedelta(10)
+      latest_date = datetime.datetime.now(pytz.timezone(tz)).date()
     else:
       latest_date = recent_time_frame
     cur_date = datetime.datetime.now(pytz.timezone(tz)).date()
