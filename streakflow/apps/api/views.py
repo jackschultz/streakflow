@@ -96,6 +96,7 @@ class ObjectiveDetail(APIView):
       serializer.save()
       info = serializer.data
       info['consecutive'] = goal.consecutive_timeframes()
+      info['all_complete'] = obj.time_frame.all_objs_finished()
       return Response(info)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQEST)
 

@@ -4,37 +4,6 @@
 
 {% block body %}
 
-<div class="row">
-  <a href="{% url 'goal_create' %}">Create a goal!</a>
-</div>
-
-<div class="row">
-  <a href="{% url 'member_update' %}">Update your profile</a>
-</div>
-
-{% for goal in goals %}
-    <p><a href="{% url 'goal_overview' goal_pk=goal.pk %}">{{goal.goal_name}}</a></p>
-{%endfor%}
-
-
-{% comment %}
-
-<div class="row">
-  <div class="span2">
-  </div>
-  <div class="span2 goal-info">
-  NAME
-  </div>
-  <div class="span2 goal-info">
-  STATUS
-  </div>
-  <div class="span2 goal-info">
-  NUMBER UNTIL COMPLETE
-  </div>
-  <div class="span2 goal-info">
-  </div>
-</div>
-
 <div>
 <div class="row">
   <div class="span3">
@@ -45,7 +14,7 @@
   </div>
 </div>
 {% for goal in daily_goals %}
-  {% include "goals/goal_view.html" %}
+  {% include "goals/individual.html" %}
 {% endfor %}
 {% if not daily_goals %}
   <div class="goal-top">
@@ -56,24 +25,24 @@
 
 <div>
 
-<div class="row">
-  <div class="span3">
-    <h1 class="goal-time-frame-heading">Weekly</h1>
+  <div class="row">
+    <div class="span3">
+      <h1 class="goal-time-frame-heading">Weekly</h1>
+    </div>
+    <div class="span9">
+      THIS FRAME EXPIRES: {{weekly_time|naturaltime}}
+    </div>
   </div>
-  <div class="span9">
-    THIS FRAME EXPIRES: {{weekly_time|naturaltime}}
-  </div>
-</div>
 
-{% for goal in weekly_goals %}
-  {% include "goals/goal_view.html" %}
-{% endfor %}
-{% if not weekly_goals %}
-  <div class="goal-top">
-    You don't have any weekly goals! <a href="{% url 'goal_create' %}">Create one!</a>
+  {% for goal in weekly_goals %}
+    {% include "goals/individual.html" %}
+  {% endfor %}
+  {% if not weekly_goals %}
+    <div class="goal-top">
+      You don't have any weekly goals! <a href="{% url 'goal_create' %}">Create one!</a>
+    </div>
+  {% endif %}
   </div>
-{% endif %}
-</div>
 
 <div>
 
@@ -86,15 +55,14 @@
   </div>
 </div>
 
-{% for goal in monthly_goals %}
-  {% include "goals/goal_view.html" %}
-{% endfor %}
-{% if not monthly_goals %}
-  <div class="goal-top">
-    You don't have any monthly goals! <a href="{% url 'goal_create' %}">Create one!</a>
-  </div>
-{% endif %}
+  {% for goal in monthly_goals %}
+    {% include "goals/individual.html" %}
+  {% endfor %}
+  {% if not monthly_goals %}
+    <div class="goal-top">
+      You don't have any monthly goals! <a href="{% url 'goal_create' %}">Create one!</a>
+    </div>
+  {% endif %}
 </div>
-{% endcomment %}
 
 {% endblock %}

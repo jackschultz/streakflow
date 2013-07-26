@@ -22,14 +22,18 @@ def goal_create(request):
     if form.is_valid():
       #create the thing and 
       goal = form.save(commit=False)
-      goal.member = request.user.get_profile()
+      member = request.user.get_profile()
+      goal.member = member
       goal.save()
+      goal.update_timeframes()
       return HttpResponseRedirect(reverse('profile'))
     else:
       return render_to_response('goals/create.html',{'form':form},context_instance=RequestContext(request)) 
   else:
     context = {'form':form}
     return render_to_response('goals/create.html',context,context_instance=RequestContext(request))
+
+
 
 #def objective_mark(request, goal_pk, tf_pk, obj_pk):
 #  member = get_object_or_404(Member, user=request.user)
@@ -60,6 +64,13 @@ def goal_overview(request, goal_pk):
   context = {}
   context['goal'] = goal
   return render_to_response('goals/overview.html',context,context_instance=RequestContext(request))
+
+
+
+
+
+
+
 
 
 

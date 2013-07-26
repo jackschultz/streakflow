@@ -24,7 +24,22 @@
               </ul> 
               <ul class="nav pull-right">
                 {%if user.is_authenticated%}
-                  <li><a href="{% url 'profile' %}">Welcome {{user}}!</a></li>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Welcome {{user}}!
+                    <b class="caret"></b>
+                    </a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                        <li role="presentation">
+                          <a role="menuitem" tabindex="-1" href="{% url 'profile' %}">View Profile</a>
+                        </li>
+                        <li role="presentation">
+                          <a role="menuitem" tabindex="-1" href="{% url 'member_update' %}">Edit Profile</a>
+                        </li>
+                        <li role="presentation">
+                          <a role="menuitem" tabindex="-1" href="{% url 'goal_create' %}">Create Goal</a>
+                        </li>
+                      </ul>
+                  </li>
                   <li><a href="{%url 'auth_logout'%}">Logout</a></li>
                 {% else %}
                   <li><a href="{%url 'auth_login'%}">Login</a></li>

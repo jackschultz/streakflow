@@ -2,25 +2,41 @@
 
 {% block body %}
 
-<div class="row">
-  <h1>{{goal}}</h1><span id="goal-consecutive">{{goal.consecutive_timeframes}}</span>
-</div>
+<div class="goal-overview">
 
-{% for tf in goal.order_timeframes %}
+  <div class="row" style="padding-bottom:20px">
+    <div class="span5">
+      <h1>{{goal}}</h1>
+    </div>
+    <div class="span5">
 
-<div class="row">
-  {{tf}}
-  {% for obj in tf.objectives.all %}
-    <span class="goal-objective" oid="{{obj.pk}}" completed="{{obj.completed|lower}}" gid="{{goal.pk}}" >{%csrf_token%} <span class="goal-obj-info">{{obj.completed|lower}}</span></span>
+        <div class="goal-consecutive-frames goal-info">
+          <span class="badge badge-info goal-streak-badge goal-consecutive">{{goal.consecutive_timeframes}}</span>
+        </div>
+
+    </div>
+  </div>
+
+  {% for tf in goal.order_timeframes %}
+
+  <div class="row">
+    <div class="span3">
+      {{tf}}
+    </div>
+    <div class="span3">
+      {% for obj in tf.objectives.all %}
+        <span class="goal-objective" oid="{{obj.pk}}" completed="{{obj.completed|lower}}" gid="{{goal.pk}}" >{%csrf_token%} <span class="goal-obj-info">{{obj.completed|lower}}</span></span>
+      {% endfor %}
+    </div>
+  </div>
   {% endfor %}
+
+
+  <div>
+  <a href="{% url 'goal_edit' goal_pk=goal.pk %}">edit</a>
+  </div>
+
 </div>
-{% endfor %}
-
-
-<div>
-<a href="{% url 'goal_edit' goal_pk=goal.pk %}">edit</a>
-</div>
-
 
 
  {% endblock %}

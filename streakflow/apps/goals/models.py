@@ -47,11 +47,11 @@ class Goal(models.Model):
     #up to date here. 
     recent_time_frame = self.time_frames.all().aggregate(Max('end_time'))
     recent_time_frame = recent_time_frame['end_time__max']
+    tz = self.member.time_zone
     if recent_time_frame is None:
-      latest_date = self.started.date()# - datetime.timedelta(10)
+      latest_date = self.started.date(pytz.timezone(tz))# - datetime.timedelta(10)
     else:
       latest_date = recent_time_frame
-    tz = self.member.time_zone
     cur_date = datetime.datetime.now(pytz.timezone(tz)).date()
     while cur_date >= latest_date:
       next_date = self.get_next_date(latest_date)
@@ -80,18 +80,16 @@ class Goal(models.Model):
   def consecutive_timeframes(self):
     tfs = self.time_frames.order_by('-begin_time')
     consec = 0
-    for tf in tfs:
-      fini = True
-      for obj in tf.objectives.all():
-        if not obj.completed:
-          fini = False
+    for tf in tfs[1:]:
+      fini = tf.all_objs_finished()
       if fini:
         consec += 1
       else:
         break
+    if tfs[0].all_objs_finished():
+      consec += 1
     return consec
-    
-
+ 
 class TimeFrame(models.Model):
   num_per_frame = models.IntegerField(default=1)
   begin_time = models.DateField(blank=True, default=None)
@@ -116,7 +114,14 @@ class TimeFrame(models.Model):
         obj.save()
 
   def __unicode__(self):
-    return self.begin_time.strftime('%A %B %d')
+    return "%s - %s" % (self.begin_time.strftime('%B %d'),self.end_time.strftime('%B %d'))
+
+  def all_objs_finished(self):
+    fini = True
+    for obj in self.objectives.all():
+      if not obj.completed:
+        fini = False
+    return fini
 
 class Objective(models.Model):
   time_completed = models.DateTimeField(blank=True, null=True, default=None)

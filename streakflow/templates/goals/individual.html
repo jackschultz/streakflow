@@ -1,0 +1,32 @@
+
+{% load goal_extras %}
+
+  <div class="goal-top goal-overview">
+    <div class="row">
+      <div class="span2">
+        <div class="goal-name goal-info">
+          <a href="{% url 'goal_overview' goal_pk=goal.pk %}">{{goal.goal_name}}</a>
+        </div>
+      </div>
+      <div class="span2">
+        <div class="goal-consecutive-frames goal-info">
+          <span class="badge badge-info goal-streak-badge goal-consecutive">{{goal.consecutive_timeframes}}</span>
+        </div>
+      </div>
+      <div class="span2">
+      {% if goal.max_tf|all_objs_finished %}
+      <span class="complete-label label label-success">COMPLETE</span>
+      {% else %}
+      <span class="complete-label label label-important">INCOMPLETE</span>
+      {% endif %}
+      </div>
+      <div class="span4">
+        {% for obj in goal.max_tf.objectives.all %}
+          <span class="goal-objective" oid="{{obj.pk}}" completed="{{obj.completed|lower}}" gid="{{goal.pk}}" >{%csrf_token%} <span class="goal-obj-info">{{obj.completed|lower}}</span></span>
+        {% endfor %}
+
+      </div>
+      <div class="span2">
+      </div>
+    </div>
+  </div>

@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+
+
 });
 
 $(document).on('click', ".goal-objective", function(event) {
@@ -27,7 +30,13 @@ $(document).on('click', ".goal-objective", function(event) {
       success: function(response) {
         obj.find(".goal-obj-info").text(response["completed"]);
         obj.attr("completed",response["completed"]);
-        $("#goal-consecutive").text(response.consecutive);
+        if (response.all_complete) {
+          obj.parents(".goal-overview").find(".complete-label").removeClass("label-important").addClass("label-success").text("COMPLETE");
+        }
+        else {
+          obj.parents(".goal-overview").find(".complete-label").removeClass("label-success").addClass("label-important").text("INCOMPLETE");
+        }
+        obj.parents(".goal-overview").find(".goal-consecutive").text(response.consecutive);
       },
     });
 
