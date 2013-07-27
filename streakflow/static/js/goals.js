@@ -28,15 +28,20 @@ $(document).on('click', ".goal-objective", function(event) {
       data: data,
       dataType: "json",
       success: function(response) {
-        obj.find(".goal-obj-info").text(response["completed"]);
-        obj.attr("completed",response["completed"]);
+        obj.attr("completed",response.completed);
+        obj.parents(".goal-overview").find(".goal-consecutive").text(response.consecutive);
         if (response.all_complete) {
           obj.parents(".goal-overview").find(".complete-label").removeClass("label-important").addClass("label-success").text("COMPLETE");
         }
         else {
           obj.parents(".goal-overview").find(".complete-label").removeClass("label-success").addClass("label-important").text("INCOMPLETE");
         }
-        obj.parents(".goal-overview").find(".goal-consecutive").text(response.consecutive);
+        if (response.completed) {
+          obj.find(".goal-obj-img").attr("src","/static/img/square75x75c.png");
+        }
+        else {
+          obj.find(".goal-obj-img").attr("src","/static/img/square75x75.png");
+        }
       },
     });
 

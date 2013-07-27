@@ -23,9 +23,21 @@
     <div class="span3">
       {{tf}}
     </div>
-    <div class="span3">
+    <div class="span6">
       {% for obj in tf.objectives.all %}
-        <span class="goal-objective" oid="{{obj.pk}}" completed="{{obj.completed|lower}}" gid="{{goal.pk}}" >{%csrf_token%} <span class="goal-obj-info">{{obj.completed|lower}}</span></span>
+          {% if obj.completed %}
+          <span class="goal-objective" oid="{{obj.pk}}" completed="{{obj.completed|lower}}" gid="{{goal.pk}}" >{%csrf_token%}
+            <span class="goal-obj-info">
+              <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75c.png"/>
+            </span>
+          </span>
+          {% else %}
+          <span class="goal-objective" oid="{{obj.pk}}" completed="{{obj.completed|lower}}" gid="{{goal.pk}}" >{%csrf_token%}
+            <span class="goal-obj-info">
+              <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
+            </span>
+          </span>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
