@@ -4,7 +4,11 @@
 
 {% block body %}
 
-      <h1 style="padding-bottom:30px;">STREAKFLOW DEMO</h1>
+  <div class="row">
+      <h1>STREAKFLOW DEMO</h1>
+      <button class="btn btn-primary" style="margin-bottom:30px;" onclick="javascript:introJs().start();">Give me the tour!</button>
+      <button class="btn btn-primary pull-right" data-step="11" data-intro="Click to register now, or play around with the demo simulator!" style="margin-bottom:30px;"><a href="{% url 'registration_register' %}">Register Now!</a></button>
+  </div>
 
 <div>
   <div class="row">
@@ -17,27 +21,26 @@
   </div>
 
   <div class="goal-top goal-overview daily-goal">
-    <div class="row">
+    <div class="row" data-step="10" data-intro="Miss a day and your streak starts over. Don't let this happen!">
       <div class="span2">
         <div class="goal-name goal-info">
           <a href="#">Daily goal</a>
         </div>
       </div>
       <div class="span2">
-        <div class="goal-consecutive-frames goal-info">
+        <div class="goal-consecutive-frames goal-info" data-step="3" data-intro="Consecutive time frames increases when you complete">
           <span class="badge badge-info goal-streak-badge goal-consecutive">0</span>
         </div>
       </div>
-      <div class="span2">
+      <div class="span2" data-step="7" data-intro="Daily goals are reset every day">
       <span class="complete-label label label-important">INCOMPLETE</span>
       </div>
-      <div class="span6">
+      <div class="span6" data-step="2" data-intro="Click box to mark a goal as complete">
         <span class="demo-goal-objective" completed="false">
           <span class="goal-obj-info">
-            <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
+            <img class="goal-obj-img" data-step="8" data-intro="Click box again to increase your streak!" src="{{STATIC_URL}}img/square75x75.png"/>
           </span>
         </span>
-
       </div>
     </div>
   </div>
@@ -50,8 +53,8 @@
     <div class="span3">
       <h1 class="goal-time-frame-heading">Weekly</h1>
     </div>
-    <div class="span9 exp-time week-time" exp="3">
-      THIS FRAME EXPIRES: 3 days, 5 hours from now
+    <div class="span9 exp-time week-time" exp="1">
+      THIS FRAME EXPIRES: 1 days, 5 hours from now
     </div>
   </div>
 
@@ -63,14 +66,14 @@
         </div>
       </div>
       <div class="span2">
-        <div class="goal-consecutive-frames goal-info">
+        <div class="goal-consecutive-frames goal-info" data-step="5" data-intro="Only then is the number consecutive updated">
           <span class="badge badge-info goal-streak-badge goal-consecutive">0</span>
         </div>
       </div>
       <div class="span2">
       <span class="complete-label label label-important">INCOMPLETE</span>
       </div>
-      <div class="span6">
+      <div class="span6" data-step="4" data-intro="If multiple per timeframe, click all to have successful timeframe">
         <span class="demo-goal-objective" completed="false">
           <span class="goal-obj-info">
             <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
@@ -137,14 +140,21 @@
 
 </div>
 
-
-<button class="btn" id="advance-time">Move 24 hours into the future!</button>
+<span data-step="9" data-intro="Click the move ahead button twice.">
+<button class="btn" id="advance-time" data-step="6" data-intro="Click the button to move into the future!">Move 24 hours into the future!</button>
+</span>
 
 
 {% endblock %}
 
+{% block extrastyle %}
+    <link href="{{STATIC_URL}}css/introjs.css" rel="stylesheet" media="screen">
+{% endblock %}
+
+
 {% block extrascript %}
   <script src="{{STATIC_URL}}js/demo.js"></script>
+  <script src="{{STATIC_URL}}js/intro.js"></script>
 {% endblock %}
 
 
