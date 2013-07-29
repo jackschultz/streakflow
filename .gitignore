@@ -3,6 +3,8 @@
 
 *.swp
 
+*.DS_Store
+
 database.db
 
 #packages
