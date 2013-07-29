@@ -10,7 +10,6 @@ urlpatterns = patterns('',
     url(r'^$', 'streakflow.views.home', name='home'),
     url(r'^about$', 'streakflow.views.about', name='about'),
     url(r'^demo$', 'streakflow.views.demo', name='demo'),
-    # url(r'^accountable/', include('accountable.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
