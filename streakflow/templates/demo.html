@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block body %}
+
+
+<div>
+<div class="row">
+  <div class="span3">
+    <h1 class="goal-time-frame-heading">Daily</h1>
+  </div>
+  <div class="span9 exp-time" exp="0">
+    THIS FRAME EXPIRES: 5 hours from now
+  </div>
+</div>
+
+  <div class="goal-top goal-overview daily-goal">
+    <div class="row">
+      <div class="span2">
+        <div class="goal-name goal-info">
+          <a href="#">Daily goal</a>
+        </div>
+      </div>
+      <div class="span2">
+        <div class="goal-consecutive-frames goal-info">
+          <span class="badge badge-info goal-streak-badge goal-consecutive">0</span>
+        </div>
+      </div>
+      <div class="span2">
+      <span class="complete-label label label-important">INCOMPLETE</span>
+      </div>
+      <div class="span6">
+        <span class="demo-goal-objective" completed="false">
+          <span class="goal-obj-info">
+            <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
+          </span>
+        </span>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div>
+
+  <div class="row">
+    <div class="span3">
+      <h1 class="goal-time-frame-heading">Weekly</h1>
+    </div>
+    <div class="span9 exp-time week-time" exp="3">
+      THIS FRAME EXPIRES: 3 days, 5 hours from now
+    </div>
+  </div>
+
+  <div class="goal-top goal-overview">
+    <div class="row">
+      <div class="span2">
+        <div class="goal-name goal-info">
+          <a href="#">Weekly goal X3</a>
+        </div>
+      </div>
+      <div class="span2">
+        <div class="goal-consecutive-frames goal-info">
+          <span class="badge badge-info goal-streak-badge goal-consecutive">0</span>
+        </div>
+      </div>
+      <div class="span2">
+      <span class="complete-label label label-important">INCOMPLETE</span>
+      </div>
+      <div class="span6">
+        <span class="demo-goal-objective" completed="false">
+          <span class="goal-obj-info">
+            <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
+          </span>
+        </span>
+        <span class="demo-goal-objective" completed="false">
+          <span class="goal-obj-info">
+            <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
+          </span>
+        </span>
+        <span class="demo-goal-objective" completed="false">
+          <span class="goal-obj-info">
+            <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+
+
+  </div>
+
+<div>
+
+<div class="row">
+  <div class="span3">
+    <h1 class="goal-time-frame-heading">Monthly</h1>
+  </div>
+  <div class="span9 exp-time month-time" exp="12">
+    THIS FRAME EXPIRES: 12 days, 5 hours from now
+  </div>
+</div>
+
+  <div class="goal-top goal-overview">
+    <div class="row">
+      <div class="span2">
+        <div class="goal-name goal-info">
+          <a href="#">Monthly goal X2</a>
+        </div>
+      </div>
+      <div class="span2">
+        <div class="goal-consecutive-frames goal-info">
+          <span class="badge badge-info goal-streak-badge goal-consecutive">0</span>
+        </div>
+      </div>
+      <div class="span2">
+      <span class="complete-label label label-important">INCOMPLETE</span>
+      </div>
+      <div class="span6">
+        <span class="demo-goal-objective" completed="false">
+          <span class="goal-obj-info">
+            <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
+          </span>
+        </span>
+        <span class="demo-goal-objective" completed="false">
+          <span class="goal-obj-info">
+            <img class="goal-obj-img" src="{{STATIC_URL}}img/square75x75.png"/>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<button class="btn" id="advance-time">Move 24 hours into the future!</button>
+
+
+{% endblock %}
+
+{% block extrascript %}
+  <script src="{{STATIC_URL}}js/demo.js"></script>
+{% endblock %}
+
+

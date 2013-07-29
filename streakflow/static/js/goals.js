@@ -1,8 +1,9 @@
 $(document).ready(function() {
 
 
-
 });
+
+
 
 $(document).on('click', ".goal-objective", function(event) {
 
