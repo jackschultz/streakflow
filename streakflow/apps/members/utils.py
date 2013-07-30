@@ -20,7 +20,7 @@ def time_left_monthly(member):
   cur_year = cur_time.year
   cur_day = cur_time.day
   days_in_month = calendar.monthrange(cur_year,cur_month)[1]
-  end_time = datetime.datetime.combine(end_date, datetime.time())-datetime.timedelta(days=cur_day)+datetime.timedelta(days=days_in_month) 
+  end_time = datetime.datetime.combine(end_date, datetime.time())-datetime.timedelta(days=cur_day)+datetime.timedelta(days=days_in_month+1) 
   end_time = member_tz.localize(end_time)
   return cur_time + (end_time - cur_time)
 
