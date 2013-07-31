@@ -35,6 +35,8 @@ class Goal(models.Model):
           super(Goal,self).save(*args, **kwargs)
           break
         except IntegrityError as e:
+          raise e
+          print e
           continue
     else:
       super(Goal,self).save(*args, **kwargs)

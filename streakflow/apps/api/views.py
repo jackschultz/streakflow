@@ -4,15 +4,14 @@ from serializers import GoalSerializer, MemberSerializer, TimeFrameSerializer, O
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics, exceptions
+from rest_framework import status, generics, exceptions, mixins
 from permissions import IsOwner
 import pdb
 
 
-
-class GoalList(APIView):
+class GoalList(mixins.CreateModelMixin, APIView):
   model = Goal
-  permission_classes = (IsOwner,)
+ # permission_classes = (IsOwner,)
 
   def get(self, request, format=None):
     member = request.user.get_profile()
@@ -25,10 +24,10 @@ class GoalList(APIView):
   def post(self, request, format=None):
     serializer = GoalSerializer(data=request.DATA)
     if serializer.is_valid():
+      serializer.object.member = self.request.user.get_profile()
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class GoalDetail(APIView):
   model = Goal

@@ -8,9 +8,6 @@ $(document).ready(function() {
 $(document).on('click', ".goal-objective", function(event) {
 
     var data = {};
-    $(this).find('input').each(function() {
-      data[$(this).attr('name')] = $(this).attr('value');
-    });
     if ($(this).attr('completed') == "true") {
       data['completed'] = "0";
     }
@@ -23,6 +20,7 @@ $(document).on('click', ".goal-objective", function(event) {
     var gid = data['gid'];
     var url = "/api/goals/" + gid + "/update/" + oid;
     var obj = $(this);
+    data['csrfmiddlewaretoken'] = $.cookie('csrftoken');
     $.ajax({
       url:url,
       type:"post",
