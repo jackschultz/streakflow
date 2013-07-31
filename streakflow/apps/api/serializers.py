@@ -13,18 +13,31 @@ class TimeFrameSerializer(serializers.ModelSerializer):
     model = TimeFrame
     fields = ('begin_time','end_time','objectives',)
 
+  def asdf(self, goal):
+    import pdb;pdb.set_trace()
+    return goal.time_frames.latest()
+
+class LatestTimeFrame(serializers.Field):
+  def to_native(self,obj):
+    latest = obj.latest()
+    return TimeFrameSerializer(latest).data
+  
 class GoalSerializer(serializers.ModelSerializer):
-  time_frames = TimeFrameSerializer(many=True, required=False)
-#  time_frames = serializers.PrimaryKeyRelatedField(many=True)
-  #time_frames = serializers.HyperlinkedRelatedField(many=True, view_name='TFDetail')
+  time_frames = LatestTimeFrame()
   
   class Meta:
     model = Goal
     fields =('goal_name','id','time_frame_len','num_per_frame','time_frames',)
 
-  def pre_save(self, obj):
-    pdb.set_trace()
-    obj.member = self.request.user.get_profile()
+  
+class GoalOverviewSerializer(serializers.ModelSerializer):
+  time_frames = TimeFrameSerializer(many=True, required=False)
+  
+  class Meta:
+    model = Goal
+    fields =('goal_name','id','time_frame_len','num_per_frame','time_frames',)
+
+
 
 class MemberSerializer(serializers.ModelSerializer):
   goals = GoalSerializer(many=True)

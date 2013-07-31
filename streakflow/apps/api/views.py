@@ -1,11 +1,12 @@
 from streakflow.apps.goals.models import Goal, TimeFrame, Objective
 from streakflow.apps.members.models import Member
-from serializers import GoalSerializer, MemberSerializer, TimeFrameSerializer, ObjectiveSerializer
+from serializers import GoalSerializer, GoalOverviewSerializer, MemberSerializer, TimeFrameSerializer, ObjectiveSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics, exceptions, mixins
 from permissions import IsOwner
+from django.db.models import Max
 import pdb
 
 
@@ -18,6 +19,7 @@ class GoalList(mixins.CreateModelMixin, APIView):
     goals = Goal.objects.filter(member=member)
     for goal in goals:
       goal.update_timeframes()
+      goal.time_frames = [goal.time_frames.latest()]
     serializer = GoalSerializer(goals, many=True)
     return Response(serializer.data)
   
@@ -47,7 +49,7 @@ class GoalDetail(APIView):
 
   def get(self, request, goal_pk, format=None):
     goal = self.get_object(request, goal_pk)
-    serializer = GoalSerializer(goal)
+    serializer = GoalOverviewSerializer(goal)
     return Response(serializer.data)
 
   def put(self, request, goal_pk, format=None):

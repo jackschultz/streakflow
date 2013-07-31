@@ -76,9 +76,6 @@ class Goal(models.Model):
       end_time = cur_date - datetime.timedelta(days=cur_day) + datetime.timedelta(days=days_in_month+1) 
     return end_time
 
-  def order_timeframes(self):
-    return self.time_frames.order_by('-begin_time')
-
   def consecutive_timeframes(self):
     tfs = self.time_frames.order_by('-begin_time')
     consec = 0
@@ -97,6 +94,11 @@ class TimeFrame(models.Model):
   begin_time = models.DateField(blank=True, default=None)
   end_time = models.DateField(blank=True, default=None)
   goal = models.ForeignKey(Goal, related_name='time_frames')
+
+  class Meta:
+    ordering = ('-begin_time',)
+    get_latest_by = 'begin_time'
+  
 
   def save(self, *args, **kwargs):
     if not self.pk:

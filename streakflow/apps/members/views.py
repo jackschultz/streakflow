@@ -25,13 +25,13 @@ def member_profile(request):
   for goal in goals:
     goal.update_timeframes()
     if goal.time_frame_len == 'd':
-      goal.max_tf = goal.time_frames.all().order_by('-end_time')[0]
+      goal.max_tf = goal.time_frames.all().latest()
       context['daily_goals'].append(goal)
     elif goal.time_frame_len == 'w':
-      goal.max_tf = goal.time_frames.all().order_by('-end_time')[0]
+      goal.max_tf = goal.time_frames.all().latest()
       context['weekly_goals'].append(goal)
     elif goal.time_frame_len == 'm':
-      goal.max_tf = goal.time_frames.all().order_by('-end_time')[0]
+      goal.max_tf = goal.time_frames.all().latest()
       context['monthly_goals'].append(goal)
   context['goals'] = goals
   context['daily_time'] = time_left_daily(member)
