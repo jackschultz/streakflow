@@ -17,7 +17,7 @@ class Member(models.Model):
         try:
           super(Member,self).save(*args, **kwargs)
           break
-        except IntegrityError:
+        except IntegrityError as e:
           continue
     else:
       super(Member,self).save(*args, **kwargs)
