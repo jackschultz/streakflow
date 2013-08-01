@@ -8,7 +8,6 @@ from django.core.urlresolvers import reverse
 from django.db.models import Max
 from models import Member
 from streakflow.apps.goals.models import Goal
-from utils import time_left_daily, time_left_weekly, time_left_monthly
 import pytz
 import pdb
 
@@ -34,9 +33,9 @@ def member_profile(request):
       goal.max_tf = goal.time_frames.all().latest()
       context['monthly_goals'].append(goal)
   context['goals'] = goals
-  context['daily_time'] = time_left_daily(member)
-  context['weekly_time'] = time_left_weekly(member)
-  context['monthly_time'] = time_left_monthly(member)
+  context['daily_time'] = member.time_left_daily()
+  context['weekly_time'] = member.time_left_weekly()
+  context['monthly_time'] = member.time_left_monthly()
   return render_to_response('members/profile.html',context,context_instance=RequestContext(request))
 
 def member_update(request):

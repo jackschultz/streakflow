@@ -5,8 +5,8 @@ $(document).on('click', ".demo-goal-objective", function(event) {
       obj.find(".goal-obj-img").attr("src","/static/img/square75x75.png");
       obj.attr("completed","false");
       var num_completed = obj.parents(".goal-overview").find(".goal-consecutive").text();
+      obj.parents(".goal-overview").find(".goal-consecutive").text(parseInt(num_completed)-1);
       if (check_all_complete(obj.parents(".goal-overview")) != asdf) {
-        obj.parents(".goal-overview").find(".goal-consecutive").text(parseInt(num_completed)-1);
         obj.parents(".goal-overview").find(".complete-label").removeClass("label-success").addClass("label-important").text("INCOMPLETE");
       }
     }
@@ -15,8 +15,8 @@ $(document).on('click', ".demo-goal-objective", function(event) {
       obj.attr("completed","true");
       var num_completed = obj.parents(".goal-overview").find(".goal-consecutive").text();
       console.log(check_all_complete(obj.parents(".goal-overview")));
+      obj.parents(".goal-overview").find(".goal-consecutive").text(parseInt(num_completed)+1);
       if (check_all_complete(obj.parents(".goal-overview")) == "true") {
-        obj.parents(".goal-overview").find(".goal-consecutive").text(parseInt(num_completed)+1);
         obj.parents(".goal-overview").find(".complete-label").removeClass("label-important").addClass("label-success").text("COMPLETE");
       }
     }

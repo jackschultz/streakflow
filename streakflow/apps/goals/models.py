@@ -68,7 +68,6 @@ class Goal(models.Model):
       weekday = cur_date.weekday()
       end_time = cur_date - datetime.timedelta(days=weekday) + datetime.timedelta(days=7) 
     elif self.time_frame_len == MONTHLY:
-      pdb.set_trace()
       cur_month = cur_date.month
       cur_year = cur_date.year
       cur_day = cur_date.day
@@ -77,16 +76,17 @@ class Goal(models.Model):
     return end_time
 
   def consecutive_timeframes(self):
-    tfs = self.time_frames.order_by('-begin_time')
+    tfs = self.time_frames.all()
     consec = 0
     for tf in tfs[1:]:
       fini = tf.all_objs_finished()
       if fini:
-        consec += 1
+        consec += self.num_per_frame
       else:
         break
-    if tfs[0].all_objs_finished():
-      consec += 1
+    for obj in tfs[0].objectives.all():
+      if obj.completed:
+        consec += 1
     return consec
  
 class TimeFrame(models.Model):
@@ -98,7 +98,7 @@ class TimeFrame(models.Model):
   class Meta:
     ordering = ('-begin_time',)
     get_latest_by = 'begin_time'
-  
+ 
 
   def save(self, *args, **kwargs):
     if not self.pk:
