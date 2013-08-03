@@ -8,3 +8,8 @@ class GoalCreateForm(forms.ModelForm):
     model = Goal
     exclude = ('member','consecutive','num_completed_in_frame','last_completed',)
 
+class GoalEditForm(forms.ModelForm):
+  class Meta:
+    model = Goal
+    exclude = ('member','consecutive','num_completed_in_frame','last_completed','goal_name',)
+

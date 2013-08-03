@@ -1,55 +1,75 @@
 {% extends "base.html" %}
 
 {% block body %}
-  <form action="" method="post" class="form-horizontal" id="goal-form">
-    <h2 class="form-login-heading">Create a new goal</h2>
-    {%csrf_token%}
-    <div class="control-group">
-      <div class="controls">
-        <input id="id_goal_name" name="goal_name" value="{{form.goal_name.value|default_if_none:''}}" placeholder="Name the goal!" type="text"/>
-        <span class="help-inline">
-        {% for e in form.goal_name.errors %}
-          {{e|escape}}
-        {% endfor %}
-        </span>
+
+<div class="row">
+  <div class="span5">
+    <form action="" method="post" class="form-horizontal" id="goal-form">
+      <h2 class="form-login-heading">Create a new goal</h2>
+      {%csrf_token%}
+      <div class="control-group">
+        <div class="controls">
+          <input id="id_goal_name" name="goal_name" value="{{form.goal_name.value|default_if_none:''}}" placeholder="Goal Name" type="text"/>
+          <span class="help-inline">
+          {% for e in form.goal_name.errors %}
+            {{e|escape}}
+          {% endfor %}
+          </span>
+        </div>
       </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label">Select a timeframe</label>
-      <div class="controls">
-        <select id="id_time_frame_len" name="time_frame_len">
-          <option value="d" selected="selected">Daily</option>
-          <option value="w">Weekly</option>
-          <option value="m">Monthly</option>
-        </select>
-        <span class="help-inline">
-        {% for e in form.time_frame_len.errors %}
-          {{e|escape}}
-        {% endfor %}
-        </span>
+      <div class="control-group">
+        <label class="control-label">Select a timeframe</label>
+        <div class="controls">
+          <select id="id_time_frame_len" name="time_frame_len">
+            <option value="d" selected="selected">Daily</option>
+            <option value="w">Weekly</option>
+            <option value="m">Monthly</option>
+          </select>
+          <span class="help-inline">
+          {% for e in form.time_frame_len.errors %}
+            {{e|escape}}
+          {% endfor %}
+          </span>
+        </div>
       </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label">How many per:</label>
-      <div class="controls">
-        <select id="id_num_per_frame" name="num_per_frame">
-          <option value="1" selected="selected">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-        <span class="help-inline">
-        {% for e in form.num_per_frame.errors %}
-          {{e|escape}}
-        {% endfor %}
-        </span>
+      <div class="control-group">
+        <label class="control-label">How many per:</label>
+        <div class="controls">
+          <select id="id_num_per_frame" name="num_per_frame">
+            <option value="1" selected="selected">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+          <span class="help-inline">
+          {% for e in form.num_per_frame.errors %}
+            {{e|escape}}
+          {% endfor %}
+          </span>
+        </div>
       </div>
+      <div class="control-group controls">
+        <button class="btn btn-large btn-primary" type="submit">Create!</button>
+      </div>
+    </form>
+  </div>
+  <div class="span2">
+  </div>
+  <div class="span5">
+    <h3>Tips on goalmaking:</h3>
+    <div class="row">
+      The name should be general. Since you choose frequency and count, there's no need to put numeric constraints in the name.
     </div>
-    <div class="control-group controls">
-      <button class="btn btn-large btn-primary" type="submit">Create!</button>
+    <div class="row">
+      Start goals off with simple objectives. There's no need to go crazy at the beginning. Sure you don't get credit for any more work over than what you chose, but the goal is consistancy. If you can't meet your expectations, you still go to zero. If you find that you're easily able to complete the goals in your time frame, you can always edit your goal to make it harder. But you can never make it easier!
     </div>
-  </form>
+    <div class="row">
+      Some examples:
+        work out, read books, practice guitar, practice foreign language, meditate, volunteer
+    </div>
+  </div>
+</div>
 
 {% endblock %}

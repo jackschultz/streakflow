@@ -6,7 +6,7 @@ from django.contrib.auth.views import login
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.utils.timezone import utc
-from forms import GoalCreateForm
+from forms import GoalCreateForm, GoalEditForm
 from models import Goal, TimeFrame, Objective
 import datetime
 import json
@@ -33,27 +33,6 @@ def goal_create(request):
     context = {'form':form}
     return render_to_response('goals/create.html',context,context_instance=RequestContext(request))
 
-
-
-#def objective_mark(request, goal_pk, tf_pk, obj_pk):
-#  member = get_object_or_404(Member, user=request.user)
-#  goal = get_object_or_404(Goal, pk=goal_pk)
-#  if goal.member != member: #malicious or something
-#    response_data['success'] = 'false'
-#    raise Http404
-#  if request.is_ajax():
-#    response_data = {}
-#    obj = get_object_or_404(Objective, pk=obj_pk)
-#    obj.completed = not obj.completed
-#    obj.save()
-#    response_data['success'] = 'true'
-#    if obj.completed:
-#      response_data['completed'] = 'True'
-#    else:
-#      response_data['completed'] = 'False'
-#    return HttpResponse(json.dumps(response_data), content_type='application/json')
-
-
 def goal_overview(request, goal_pk):
   member = get_object_or_404(Member, user=request.user)
   goal = get_object_or_404(Goal, pk=goal_pk)
@@ -66,6 +45,43 @@ def goal_overview(request, goal_pk):
   return render_to_response('goals/overview.html',context,context_instance=RequestContext(request))
 
 
+def goal_edit(request, goal_pk):
+  if not request.user.is_authenticated():
+    return HttpResponseRedirect(reverse('login'))
+  member = get_object_or_404(Member, user=request.user)
+  goal = get_object_or_404(Goal, pk=goal_pk)
+  if goal.member != member: #malicious or something
+    response_data['success'] = 'false'
+    raise Http404
+  #now we want to deal with the form
+  form = GoalEditForm()
+  if request.method == 'POST':
+    form = GoalEditForm(request.POST)
+    if form.is_valid():
+      #now we need to make sure that the values are ok... not easier
+      if not goal.check_strength(int(request.POST['num_per_frame']),request.POST['time_frame_len']):
+        #we don't let them, probably should give a message.
+        context = {'form':form}
+        context['goal'] = goal
+        context['errors'] = 'Your new chosen frequency is actually easier. You need to make it harder!'
+        return render_to_response('goals/edit.html',context,context_instance=RequestContext(request)) 
+      goal.num_per_frame = int(request.POST['num_per_frame'])
+      goal.time_frame_len = request.POST['time_frame_len']
+      goal.save()
+      return HttpResponseRedirect(reverse('profile'))
+    else:
+      context = {'form':form}
+      context['goal'] = goal
+      return render_to_response('goals/edit.html',context,context_instance=RequestContext(request)) 
+  else:
+    context = {'form':form}
+    context['goal'] = goal
+    return render_to_response('goals/edit.html',context,context_instance=RequestContext(request))
+    #now they can modify it.
+  context = {}
+  context['goal'] = goal
+  return render_to_response('goals/edit.html',context,context_instance=RequestContext(request))
+ 
 
 
 
@@ -112,42 +128,7 @@ def goal_completed(request):
       context['goal'] = goal
       return render_to_response('goals/goal_view.html',context,context_instance=RequestContext(request))
 
-def goal_edit(request, goal_pk):
-  if not request.user.is_authenticated():
-    return HttpResponseRedirect(reverse('login'))
-  member = get_object_or_404(Member, user=request.user)
-  goal = get_object_or_404(Goal, pk=goal_pk)
-  if goal.member != member: #malicious or something
-    response_data['success'] = 'false'
-    raise Http404
-  #now we want to deal with the form
-  form = GoalCreateForm()
-  if request.method == 'POST':
-    form = GoalCreateForm(request.POST)
-    if form.is_valid():
-      #now we need to make sure that the values are ok... not easier
-      if not check_strength(goal, int(request.POST['times_in_frame']),request.POST['time_frame']):
-        #we don't let them, probably should give a message.
-        context = {'form':form}
-        context['goal'] = goal
-        return render_to_response('goals/edit.html',context,context_instance=RequestContext(request)) 
-      goal.times_in_frame = int(request.POST['times_in_frame'])
-      goal.time_frame = request.POST['time_frame']
-      goal.save()
-      return HttpResponseRedirect(reverse('profile'))
-    else:
-      context = {'form':form}
-      context['goal'] = goal
-      return render_to_response('goals/edit.html',context,context_instance=RequestContext(request)) 
-  else:
-    context = {'form':form}
-    context['goal'] = goal
-    return render_to_response('goals/edit.html',context,context_instance=RequestContext(request))
-    #now they can modify it.
-  context = {}
-  context['goal'] = goal
-  return render_to_response('goals/edit.html',context,context_instance=RequestContext(request))
-  
+ 
 def goal_delete(request, goal_pk):
   member = get_object_or_404(Member, user=request.user)
   goal = get_object_or_404(Goal, pk=goal_pk)

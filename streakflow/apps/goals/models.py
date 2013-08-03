@@ -88,6 +88,24 @@ class Goal(models.Model):
       if obj.completed:
         consec += 1
     return consec
+
+  def check_strength(self, nnpf, ntf):
+  #returns true if the new requirements are tougher.
+    if self.time_frame_len == DAILY:
+      cur_freq = self.num_per_frame
+    elif self.time_frame_len == WEEKLY:
+      cur_freq = self.num_per_frame/7
+    elif self.time_frame_len == MONTHLY:
+      cur_freq = self.num_per_frame/28
+    if ntf == DAILY:
+      new_freq = nnpf 
+    elif ntf == WEEKLY:
+      new_freq = nnpf/7
+    elif ntf == MONTHLY:
+      new_freq = nnpf/28
+    if new_freq >= cur_freq:
+      return True 
+    return False
  
 class TimeFrame(models.Model):
   num_per_frame = models.IntegerField(default=1)
