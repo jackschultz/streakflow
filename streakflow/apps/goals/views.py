@@ -65,10 +65,12 @@ def goal_edit(request, goal_pk):
         context['goal'] = goal
         context['errors'] = 'Your new chosen frequency is actually easier. You need to make it harder!'
         return render_to_response('goals/edit.html',context,context_instance=RequestContext(request)) 
-      goal.num_per_frame = int(request.POST['num_per_frame'])
       goal.time_frame_len = request.POST['time_frame_len']
+      goal.num_per_frame = int(request.POST['num_per_frame'])
       goal.save()
-      return HttpResponseRedirect(reverse('profile'))
+      goal.update_tf_edit()
+      #no we need to adjust the current timeframe
+      return HttpResponseRedirect(reverse('goal_overview',args=(goal.pk,)))
     else:
       context = {'form':form}
       context['goal'] = goal

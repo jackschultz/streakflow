@@ -47,8 +47,7 @@ class Goal(models.Model):
   def update_timeframes(self):
     #we want to go here and check to see if we have all the time frames
     #up to date here. 
-    recent_time_frame = self.time_frames.all().aggregate(Max('end_time'))
-    recent_time_frame = recent_time_frame['end_time__max']
+    recent_time_frame = self.time_frames.latest().end_time
     tz = self.member.time_zone
     if recent_time_frame is None:
       latest_date = datetime.datetime.now(pytz.timezone(tz)).date()
@@ -60,6 +59,19 @@ class Goal(models.Model):
       tf = TimeFrame(num_per_frame=self.num_per_frame, begin_time=latest_date, end_time=next_date, goal=self)
       tf.save()
       latest_date = next_date
+
+  def update_tf_edit(self):
+    #we want to go and change the time frames to reflect immediatly
+    #TODO more logic here
+    recent_time_frame = self.time_frames.latest()
+    tz = self.member.time_zone
+    cur_date = datetime.datetime.now(pytz.timezone(tz)).date()
+    recent_time_frame.end_time = cur_date
+    recent_time_frame.save()
+    self.update_timeframes()
+#    next_date = self.get_next_date(cur_date)
+#    tf = TimeFrame(num_per_frame=self.num_per_frame, begin_time=latest_date, end_time=next_date, goal=self)
+#    tf.save()
 
   def get_next_date(self, cur_date):
     if self.time_frame_len == DAILY:
@@ -81,7 +93,7 @@ class Goal(models.Model):
     for tf in tfs[1:]:
       fini = tf.all_objs_finished()
       if fini:
-        consec += self.num_per_frame
+        consec += tf.objectives.count()
       else:
         break
     for obj in tfs[0].objectives.all():
