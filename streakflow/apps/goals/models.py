@@ -47,7 +47,10 @@ class Goal(models.Model):
   def update_timeframes(self):
     #we want to go here and check to see if we have all the time frames
     #up to date here. 
-    recent_time_frame = self.time_frames.latest().end_time
+    try:
+      recent_time_frame = self.time_frames.latest().end_time
+    except TimeFrame.DoesNotExist:
+      recent_time_frame = None
     tz = self.member.time_zone
     if recent_time_frame is None:
       latest_date = datetime.datetime.now(pytz.timezone(tz)).date()
@@ -60,18 +63,26 @@ class Goal(models.Model):
       tf.save()
       latest_date = next_date
 
-  def update_tf_edit(self):
+  def update_tf_edit(self, old_tfl):
     #we want to go and change the time frames to reflect immediatly
     #TODO more logic here
     recent_time_frame = self.time_frames.latest()
+    if self.time_frame_len == old_tfl:
+      #just loop and add objectives
+      for i in range(self.num_per_frame - recent_time_frame.objectives.count()):
+        obj = Objective(time_frame=recent_time_frame)
+        obj.save()
     tz = self.member.time_zone
     cur_date = datetime.datetime.now(pytz.timezone(tz)).date()
-    recent_time_frame.end_time = cur_date
+    pdb.set_trace()
+    recent_time_frame.end_time = self.get_next_date(cur_date)
     recent_time_frame.save()
-    self.update_timeframes()
-#    next_date = self.get_next_date(cur_date)
-#    tf = TimeFrame(num_per_frame=self.num_per_frame, begin_time=latest_date, end_time=next_date, goal=self)
-#    tf.save()
+    #if self.time_frame_len == DAILY:
+    #  recent_time_frame.end_time = cur_date
+    #  recent_time_frame.save()
+    #  self.update_timeframes()
+    #elif self.time_frame_len == WEEKLY:
+    #  pass
 
   def get_next_date(self, cur_date):
     if self.time_frame_len == DAILY:

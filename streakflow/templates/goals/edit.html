@@ -40,13 +40,14 @@
         <label class="control-label">How many per:</label>
         <div class="controls">
           <select id="id_num_per_frame" name="num_per_frame">
-           {% ifequal goal.num_per_frame 1 %}
             <option value="1" selected="selected">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
             <option value="6">6</option>
+      {%comment%}
+           {% ifequal goal.num_per_frame 1 %}
           {% endifequal %}
            {% ifequal goal.num_per_frame 2 %}
             <option value="2" selected="selected">2</option>
@@ -73,6 +74,7 @@
            {% ifequal goal.num_per_frame 6 %}
             <option value="6" selected="selected">6</option>
           {% endifequal %}
+      {%endcomment%}
           </select>
           <span class="help-inline">
           {% for e in form.times_in_frame.errors %}

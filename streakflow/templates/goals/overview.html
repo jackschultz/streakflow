@@ -23,7 +23,7 @@
     <div class="span3">
       {{tf}}
     </div>
-    <div class="span6" style="margin-bottom:3px;">
+    <div class="span9" style="margin-bottom:3px;">
       {% for obj in tf.objectives.all %}
           {% if obj.completed %}
           <span class="goal-objective" oid="{{obj.pk}}" completed="{{obj.completed|lower}}" gid="{{goal.pk}}" >{%csrf_token%}
