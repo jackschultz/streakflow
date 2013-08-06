@@ -5,7 +5,7 @@
 {% block body %}
 
   <div class="row">
-      <h1>STREAKFLOW DEMO</h1>
+      <h1 data-step="1" data-intro="Welcome to the demo! To get the most out of the tour, make sure to follow the directions so you know what Streakflow can do! Click next to continue.">STREAKFLOW DEMO</h1>
       <button class="btn btn-primary" style="margin-bottom:30px;" onclick="javascript:introJs().start();">Click here for the tour!</button>
       <button class="btn btn-primary pull-right" data-step="11" data-intro="Click to register now, or play around with the demo simulator!" style="margin-bottom:30px;"><a href="{% url 'registration_register' %}">Register!</a></button>
   </div>
