@@ -14,7 +14,6 @@ class TimeFrameSerializer(serializers.ModelSerializer):
     fields = ('begin_time','end_time','objectives',)
 
   def asdf(self, goal):
-    import pdb;pdb.set_trace()
     return goal.time_frames.latest()
 
 class LatestTimeFrame(serializers.Field):

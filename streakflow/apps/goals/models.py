@@ -6,7 +6,6 @@ import datetime
 import pytz
 import calendar
 import uuid
-import pdb
 
 # Create your models here.
 
@@ -74,7 +73,6 @@ class Goal(models.Model):
         obj.save()
     tz = self.member.time_zone
     cur_date = datetime.datetime.now(pytz.timezone(tz)).date()
-    pdb.set_trace()
     recent_time_frame.end_time = self.get_next_date(cur_date)
     recent_time_frame.save()
     #if self.time_frame_len == DAILY:
