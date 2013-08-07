@@ -108,6 +108,7 @@ class MemberDetail(APIView):
   def get_object(self, request, pk):
     try:
       member = Member.objects.get(pk=pk)
+      #have to deal with anonymous user not having below...
       member_request = request.user.get_profile()
       self.check_object_permissions(request, member)
       return member

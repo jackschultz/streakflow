@@ -3,6 +3,44 @@ $(document).ready(function() {
 
 });
 
+function getGoalInfo() {
+  var url = "http://streakflow.com";///accounts/login/";
+  data = {};
+  data['csrfmiddlewaretoken'] = $.cookie('csrftoken');
+  data['username'] = 'jackschultz';
+  data['password'] = 'asdf';
+  headers = {};
+  headers['X-CSRFToken'] = $.cookie('csrftoken');
+  $.ajax({
+    url: url,
+    //type: "post",
+    type: "get",
+    //headers: headers,
+    //dataType: 'jsonp',
+    contentType: "application/json",
+    //data: data,
+    data: {csrfmiddlewaretoken:$.cookie('csrftoken'), username:'jackschultz',password:'asdf'},
+    success: function(data) {
+     // console.log(data);
+    },
+    error: function(data) {
+     // console.log(data);
+    }
+  });
+
+}
+
+
+function populateData(data) {
+  tmpl = $("#shit_tmpl").html();
+  output = Mustache.to_html(tmpl, data);
+  $("#shit").append(output);
+};
+
+$(function() {
+//  populateData(data);
+//getGoalInfo();
+});
 
 
 $(document).on('click', ".goal-objective", function(event) {
