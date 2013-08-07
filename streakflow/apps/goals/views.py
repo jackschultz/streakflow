@@ -34,7 +34,7 @@ def goal_create(request):
     return render_to_response('goals/create.html',context,context_instance=RequestContext(request))
 
 def goal_overview(request, goal_pk):
-  member = get_object_or_404(Member, user=request.user)
+  member = get_object_or_404(Member, user=request.user.id)
   goal = get_object_or_404(Goal, pk=goal_pk)
   if goal.member != member: #malicious or something
     response_data['success'] = 'false'
@@ -47,8 +47,8 @@ def goal_overview(request, goal_pk):
 
 def goal_edit(request, goal_pk):
   if not request.user.is_authenticated():
-    return HttpResponseRedirect(reverse('login'))
-  member = get_object_or_404(Member, user=request.user)
+    return HttpResponseRedirect(reverse('auth_login'))
+  member = get_object_or_404(Member, user=request.user.id)
   goal = get_object_or_404(Goal, pk=goal_pk)
   if goal.member != member: #malicious or something
     response_data['success'] = 'false'
@@ -110,7 +110,7 @@ def goal_completed(request):
     response_data = {}
     #need to get the goal. Identified by id, make sure that no one else's id is in the way
     gid = request.POST['gid']
-    member = get_object_or_404(Member, user=request.user)
+    member = get_object_or_404(Member, user=request.user.id)
     goal = Goal.objects.get(pk=gid)
     if goal.member != member: #malicious or something
       response_data['success'] = 'false'
@@ -133,7 +133,7 @@ def goal_completed(request):
 
  
 def goal_delete(request, goal_pk):
-  member = get_object_or_404(Member, user=request.user)
+  member = get_object_or_404(Member, user=request.user.id)
   goal = get_object_or_404(Goal, pk=goal_pk)
   if goal.member != member: #malicious or something
     response_data['success'] = 'false'
