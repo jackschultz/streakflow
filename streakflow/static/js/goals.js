@@ -4,7 +4,7 @@ $(document).ready(function() {
 });
 
 function getGoalInfo() {
-  var url = "http://streakflow.com";///accounts/login/";
+  var url = "localhost:8000/api-auth/login/";
   data = {};
   data['csrfmiddlewaretoken'] = $.cookie('csrftoken');
   data['username'] = 'jackschultz';
@@ -13,18 +13,18 @@ function getGoalInfo() {
   headers['X-CSRFToken'] = $.cookie('csrftoken');
   $.ajax({
     url: url,
-    //type: "post",
-    type: "get",
+    type: "post",
+    //type: "get",
     //headers: headers,
     //dataType: 'jsonp',
     contentType: "application/json",
-    //data: data,
+    data: data,
     data: {csrfmiddlewaretoken:$.cookie('csrftoken'), username:'jackschultz',password:'asdf'},
     success: function(data) {
-     // console.log(data);
+      console.log(data);
     },
     error: function(data) {
-     // console.log(data);
+      console.log(data);
     }
   });
 

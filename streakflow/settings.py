@@ -35,6 +35,10 @@ EMAIL_HOST_USER = 'register@streakflow.com'
 EMAIL_HOST_PASSWORD = 'streakflowishere'
 EMAIL_PORT = 587
 
+#celery info. Need for sending emails and all that if nothign else
+
+
+
 #for the framework
 REST_FRAMEWORK = {
   'DEFAULT_PERMISSION_CLASSES': (
@@ -42,7 +46,6 @@ REST_FRAMEWORK = {
   ),
   'DEFAULT_AUTHENTICATION_CLASSES': (
     'rest_framework.authentication.SessionAuthentication',
-    'rest_framework.authentication.BasicAuthentication',
   ),
 #  'DEFAULT_RENDERER_CLASSES': (
 #    'rest_framework.renderers.JSONRenderer',
