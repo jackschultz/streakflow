@@ -10,7 +10,7 @@ One of the main pieces of feedback that we got was that we should provide remind
 
 Besides the reminder emails, there are a couple more setting that have been introduced. 
 
-The first has to do with the email updates that you receive. In account settings,
+The first has to do with the email updates that you receive. In account settings
 
 http://www.streakflow.com{% url 'member_update' %}
 
