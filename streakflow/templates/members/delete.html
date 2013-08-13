@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+  <form action="" method="post" class="form-horizontal" id="goal-form">
+    <h2 class="form-login-heading">Change your settings</h2>
+    {%csrf_token%}
+    <div class="control-group">
+      <div class="controls">
+      <label class="checkbox">
+        <input id="id_delete_account" name="delete_account" type="checkbox">
+        Check and submit to delete account for good
+      </label>
+      </div>
+    </div>
+    <div class="control-group controls">
+      <button class="btn btn-large btn-primary" type="submit">Delete your account for good</button>
+    </div>
+  </form>
+
+<div>
+If you're deleting your account (or even if you aren't), send any and all feedback to feedback@streakflow.com. All information, even negative is appreciated!
+</div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+Hello Users!
+
+Streakflow here to update you on what's been going on at here in the past week or so.
+
+tl;dr:
+Reminder emails are coming, you now can edit which types of emails you receive, and you can delete your account if you want to (but you shouldn't). Also send feedback,  feedback@streakflow.com.
+
+
+One of the main pieces of feedback that we got was that we should provide reminders for goals that are about to expire that are incomplete. The first is that sometime you just forget to do your goal. The other is to guilt / motivate you to complete the goal before the email. If you have already completed your goals before the email is going to go out, you won't receive it! Basically, get it done beforehand, and you won't be bothered with the email. If you don't have it done, this servers as a reminder. This feature will be rolled out in the next few days so get excited.
+
+Besides the reminder emails, there are a couple more setting that have been introduced. 
+
+The first has to do with the email updates that you receive. In account settings,
+
+http://www.streakflow.com{% url 'member_update' %}
+
+You should notice that there are two new checkboxes, which let you subscribe and unsubscribe from different email classes. The first has to do with informational emails (like this one). These types of emails are vary scarce and contain important information, so unsubscribing probably isn't a great idea. The second refers to the reminder emails. If the boxes are checked, then you'll be getting emails. If you uncheck the boxes and update your profile, then you won't. Pretty simple.
+
+The final update is that you are now have the option to delete your account. If you find you aren't using it, feel free to delete it and all accompanying goals. While we don't like this, we realize that having the option is important. The link to delete is at the same url as your profile update.
+
+Finally, Streakflow is relatively new service, and you guys have the ability to shape what it looks like. That being said, any and all feedback is greatly appreciated. Email any comments you have to feedback@streakflow.com.
+
+Wow, thanks for reading this far! Good luck and keep streaking!
+

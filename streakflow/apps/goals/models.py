@@ -166,6 +166,12 @@ class TimeFrame(models.Model):
         fini = False
     return fini
 
+  def num_objs_finished(self):
+    tot = 0
+    for obj in self.objectives.all():
+      tot = tot + 1 if obj.completed else tot
+    return tot
+
 class Objective(models.Model):
   time_completed = models.DateTimeField(blank=True, null=True, default=None)
   time_frame = models.ForeignKey(TimeFrame, related_name='objectives')

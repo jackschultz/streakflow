@@ -36,7 +36,20 @@ EMAIL_HOST_PASSWORD = 'streakflowishere'
 EMAIL_PORT = 587
 
 #celery info. Need for sending emails and all that if nothign else
+#import djcelery
+#djcelery.setup_loader()
 
+#BROKER_URL = "amqp://guest:guest@localhost:5672//"
+
+#CELERY_IMPORTS = ('streakflow.apps.members.tasks',)
+
+
+#mailchimp tryout
+#MAILCHIMP_API_KEY = '3a4c31eef13e7a04153aa9b02672b12d-us7'
+#MAILCHIMP_LIST_OVERALL_ID = '6c2be225ba'
+
+#MANDRILL_API_KEY = 'ZjXFXFeF5KvqDcmuZTsxiw'
+MANDRILL_API_KEY = 'FdYZou0jtJNao2sQTU1O_Q'
 
 
 #for the framework
@@ -162,6 +175,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.humanize',
+    'djcelery',
+    'mailsnake',
     'rest_framework',
     'registration',
     'south',

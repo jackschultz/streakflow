@@ -15,13 +15,31 @@
         </select>
       </div>
     </div>
+    <div class="control-group">
+      <div class="controls">
+      <label class="checkbox">
+        <input id="id_subscribed_overall_email" name="subscribed_overall_email" type="checkbox" {% if member.subscribed_overall_email%}checked{%endif%}>
+        Subscribe to informational emails
+      </label>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+      <label class="checkbox">
+        <input id="id_subscribed_reminder_email" name="subscribed_reminder_email" type="checkbox" {% if member.subscribed_reminder_email%}checked{%endif%}>
+        Subscribe to reminder emails
+      </label>
+      </div>
+    </div>
     <div class="control-group controls">
       <button class="btn btn-large btn-primary" type="submit">Change your info</button>
     </div>
   </form>
 
 
+
 <div>
+<a href="{% url 'member_delete' %}">Delete your account for good</a>
 </div>
 
 {% endblock %}

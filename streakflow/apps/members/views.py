@@ -42,6 +42,9 @@ def member_update(request):
   if not request.user.is_authenticated():
     return HttpResponseRedirect(reverse('auth_login'))
   member = get_object_or_404(Member, user=request.user)
+  context = {}
+  context['member'] = member
+  context['timezones'] = pytz.common_timezones
   if request.method == 'POST':
     timezone = request.POST['time_zone']
     if timezone not in pytz.common_timezones:
@@ -52,13 +55,29 @@ def member_update(request):
       return render_to_response('members/update.html',context,context_instance=RequestContext(request))
     else:
       member.time_zone = timezone
+      overall_email = request.POST.get('subscribed_overall_email',False)
+      member.subscribed_overall_email = True if overall_email else False
+      reminder_email = request.POST.get('subscribed_reminder_email',False)
+      member.subscribed_reminder_email = True if reminder_email else False
       member.save()
-      return HttpResponseRedirect(reverse('profile'))
+      return render_to_response('members/update.html',context,context_instance=RequestContext(request))
   else:
-    context = {}
-    context['member'] = member
-    context['timezones'] = pytz.common_timezones
     return render_to_response('members/update.html',context,context_instance=RequestContext(request))
+
+def member_delete(request):
+  if not request.user.is_authenticated():
+    return HttpResponseRedirect(reverse('auth_login'))
+  member = get_object_or_404(Member, user=request.user)
+  context = {}
+  context['member'] = member
+  if request.method == 'POST':
+      delete_account= request.POST.get('delete_account',False)
+      delete_account = True if delete_account else False
+      if delete_account:
+        member.user.delete()
+      return HttpResponseRedirect(reverse('home'))
+  else:
+    return render_to_response('members/delete.html',context,context_instance=RequestContext(request))
 
 
 

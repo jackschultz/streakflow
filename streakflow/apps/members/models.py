@@ -11,6 +11,8 @@ import calendar
 class Member(models.Model):
   user = models.OneToOneField(User)
   time_zone = models.CharField(default='US/Eastern', max_length=30)
+  subscribed_overall_email = models.BooleanField(default=True)
+  subscribed_reminder_email = models.BooleanField(default=True)
 
   def save(self, *args, **kwargs):
     if not self.pk:
@@ -26,6 +28,12 @@ class Member(models.Model):
 
   def __unicode__(self):
     return self.user.username
+
+  def current_time(self):
+    #we need to change all the timez here to the correct timezone
+    member_tz = pytz.timezone(self.time_zone)
+    cur_time = datetime.datetime.now(member_tz)
+    return cur_time
 
   def time_left_daily(self):
     #we need to change all the timez here to the correct timezone
