@@ -39,16 +39,20 @@ EMAIL_PORT = 587
 #import djcelery
 #djcelery.setup_loader()
 
-#BROKER_URL = "amqp://guest:guest@localhost:5672//"
+BROKER_URL = "amqp://guest:guest@localhost:5672//"
 
-#CELERY_IMPORTS = ('streakflow.apps.members.tasks',)
+CELERY_IMPORTS = ('streakflow.apps.members.tasks',)
+CELERY_TIMEZONE = 'UTC'
 
+from celery.schedules import crontab
 
-#mailchimp tryout
-#MAILCHIMP_API_KEY = '3a4c31eef13e7a04153aa9b02672b12d-us7'
-#MAILCHIMP_LIST_OVERALL_ID = '6c2be225ba'
+CELERYBEAT_SCHEDULE = {
+    'check-goals-complete': {
+        'task': 'streakflow.apps.members.tasks.reminder_emails',
+        'schedule': crontab(minute='*/30'),
+    },
+}
 
-#MANDRILL_API_KEY = 'ZjXFXFeF5KvqDcmuZTsxiw'
 MANDRILL_API_KEY = 'FdYZou0jtJNao2sQTU1O_Q'
 
 

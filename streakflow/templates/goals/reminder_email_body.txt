@@ -3,31 +3,30 @@
 Hey {{username}}!
 
 Streakflow reminders here! Seeing how it's the end of the day and you are getting close to missing some of your goals, this is an update to get you to keep streaking. Here's a status update:
-
 {% if daily_goals %}
+
 Daily: frame ends {{daily_time|naturaltime}}
 	{% for goal in daily_goals %}
 		{{goal.goal_name}} - completed {{goal.finished}} out of {{goal.num_per_frame}}
 
 	{%endfor%}
 {% endif %}
-
 {% if weekly_goals %}
+
 Weekly: frame ends {{weekly_time|naturaltime}}
 	{% for goal in weekly_goals %}
 		{{goal.goal_name}} - completed {{goal.finished}} out of {{goal.num_per_frame}}
 
 	{%endfor%}
 {% endif %}
-
 {% if monthly_goals %}
-Weekly: frame ends {{monthly_time|naturaltime}}
+
+Monthly: frame ends {{monthly_time|naturaltime}}
 	{% for goal in monthly_goals %}
 		{{goal.goal_name}} - completed {{goal.finished}} out of {{goal.num_per_frame}}
 
 	{%endfor%}
 {% endif %}
-
 
 Why are you getting this email? Well first of all, to guilt you into finishing these goals that you wanted to do. Sometimes all you need is to see a reminder, or in the future, just finish your goals earlier, and you won't see this reminder at all! Though we feel like this is a fantastic way to get you motivated, we realize that sometimes, not all people want this.
 

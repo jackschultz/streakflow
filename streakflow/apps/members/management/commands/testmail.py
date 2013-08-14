@@ -8,11 +8,12 @@ class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
 
     def handle(self, *args, **options):
-      mapi = MailSnake(settings.MANDRILL_API_KEY, api='mandrill')
-      subject = 'Streakflow updates!'
-      body = render_to_string('email/info1_email_body.txt')
-      import pdb;pdb.set_trace()
-      for member in Member.objects.filter(subscribed_reminder_email=True):
-        print member
-        print mapi.messages.send(message={'text':body, 'subject':subject, 'from_email':'info@streakflow.com', 'from_name':'Streakflow Information', 'to':[{'email':member.user.email, 'name':member.user.username}]})
+      pass
+     # mapi = MailSnake(settings.MANDRILL_API_KEY, api='mandrill')
+     # subject = 'Streakflow updates!'
+     # body = render_to_string('email/info1_email_body.txt')
+     # import pdb;pdb.set_trace()
+     # for member in Member.objects.filter(subscribed_reminder_email=True):
+     #   print member
+     #   print mapi.messages.send(message={'text':body, 'subject':subject, 'from_email':'info@streakflow.com', 'from_name':'Streakflow Information', 'to':[{'email':member.user.email, 'name':member.user.username}]})
 

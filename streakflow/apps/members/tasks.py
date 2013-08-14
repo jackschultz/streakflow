@@ -4,6 +4,7 @@ from streakflow.apps.goals.models import Goal
 from django.template.loader import render_to_string
 from django.conf import settings
 from mailsnake import MailSnake
+import datetime
 
 
 @task()
@@ -14,10 +15,15 @@ def reminder_emails():
   members = Member.objects.filter(subscribed_reminder_email=True)
   #now we want to filter members for the correct reminder time that they want.
 
-
-
+  hour = 22
+  minute = 0
 
   for member in members:
+    mem_time = member.current_time()
+    mem_time_hour = mem_time.hour
+    mem_time_minute = mem_time.minute/30 * 30 #deals with how long it takes to go through all
+    if mem_time_hour != hour or mem_time_minute != minute: #this is the check for if we send the email. Currently, we want to
+      continue
     context['username'] = member.user.username
     #daily goals
     context['daily_goals'] = []
@@ -66,5 +72,4 @@ def reminder_emails():
     if context['monthly_goals'] or context['weekly_goals'] or context['daily_goals']:
       subject = render_to_string('goals/reminder_email_subject.txt')
       body = render_to_string('goals/reminder_email_body.txt', context)
-      import pdb;pdb.set_trace()
       print mapi.messages.send(message={'text':body, 'subject':subject, 'from_email':'reminders@streakflow.com', 'from_name':'Streakflow Reminders', 'to':[{'email':member.user.email, 'name':member.user.username}]})
