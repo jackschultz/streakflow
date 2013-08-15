@@ -7,8 +7,9 @@ from mailsnake import MailSnake
 import datetime
 
 
-@task()
+@task
 def reminder_emails():
+  print "DOING EMAILS NOW"
   mapi = MailSnake(settings.MANDRILL_API_KEY, api='mandrill')
   #get the context for this...
   context = {}
@@ -25,11 +26,11 @@ def reminder_emails():
     if mem_time_hour != hour or mem_time_minute != minute: #this is the check for if we send the email. Currently, we want to
       continue
     context['username'] = member.user.username
+    print "Sending for " + member.user.username
     #daily goals
     context['daily_goals'] = []
     daily_goals = member.goals.filter(time_frame_len='d')
     for goal in daily_goals:
-      print goal.goal_name
       goal.max_tf = goal.time_frames.all().latest()
       #here we should get the number and number left
       goal.finished = goal.max_tf.num_objs_finished()
@@ -44,7 +45,6 @@ def reminder_emails():
     context['weekly_time'] = weekly_time
     days_left_weekly = (weekly_time - member.current_time()).days
     for goal in weekly_goals:
-      print goal.goal_name
       goal.max_tf = goal.time_frames.all().latest()
       #here we should get the number and number left
       goal.finished = goal.max_tf.num_objs_finished()
@@ -60,7 +60,6 @@ def reminder_emails():
     context['monthly_time'] = monthly_time
     days_left_monthly = (monthly_time - member.current_time()).days
     for goal in monthly_goals:
-      print goal.goal_name
       goal.max_tf = goal.time_frames.all().latest()
       #here we should get the number and number left
       goal.finished = goal.max_tf.num_objs_finished()
@@ -72,4 +71,4 @@ def reminder_emails():
     if context['monthly_goals'] or context['weekly_goals'] or context['daily_goals']:
       subject = render_to_string('goals/reminder_email_subject.txt')
       body = render_to_string('goals/reminder_email_body.txt', context)
-      print mapi.messages.send(message={'text':body, 'subject':subject, 'from_email':'reminders@streakflow.com', 'from_name':'Streakflow Reminders', 'to':[{'email':member.user.email, 'name':member.user.username}]})
+      #print mapi.messages.send(message={'text':body, 'subject':subject, 'from_email':'reminders@streakflow.com', 'from_name':'Streakflow Reminders', 'to':[{'email':member.user.email, 'name':member.user.username}]})
