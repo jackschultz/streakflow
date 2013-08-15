@@ -18,7 +18,6 @@ def reminder_emails():
 
 
   for member in members:
-    import pdb;pdb.set_trace()
     hour = member.reminder_email_time
     minute = 0
     mem_time = member.current_time()
@@ -72,4 +71,4 @@ def reminder_emails():
     if context['monthly_goals'] or context['weekly_goals'] or context['daily_goals']:
       subject = render_to_string('goals/reminder_email_subject.txt')
       body = render_to_string('goals/reminder_email_body.txt', context)
-      #print mapi.messages.send(message={'text':body, 'subject':subject, 'from_email':'reminders@streakflow.com', 'from_name':'Streakflow Reminders', 'to':[{'email':member.user.email, 'name':member.user.username}]})
+      print mapi.messages.send(message={'text':body, 'subject':subject, 'from_email':'reminders@streakflow.com', 'from_name':'Streakflow Reminders', 'to':[{'email':member.user.email, 'name':member.user.username}]})
