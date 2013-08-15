@@ -23,18 +23,48 @@
       </label>
       </div>
     </div>
-    <div class="control-group">
-      <div class="controls">
-      <label class="checkbox">
+<div class="control-group">
+  <div class="controls">
+    <label>
         <input id="id_subscribed_reminder_email" name="subscribed_reminder_email" type="checkbox" {% if member.subscribed_reminder_email%}checked{%endif%}>
-        Subscribe to reminder emails
-      </label>
-      </div>
+       Daily reminder email
+    </label>
+    <div class="send-time">at
+      <select id="id_email_reminder_time" name="email_reminder_time" class="medium">
+        <option {% if member.reminder_email_time == 0 %}selected="selected"{% endif %} value="0">12am</option>
+        <option {% if member.reminder_email_time == 1 %}selected="selected"{% endif %} value="1">1am</option>
+        <option {% if member.reminder_email_time == 2 %}selected="selected"{% endif %} value="2">2am</option>
+        <option {% if member.reminder_email_time == 3 %}selected="selected"{% endif %} value="3">3am</option>
+        <option {% if member.reminder_email_time == 4 %}selected="selected"{% endif %} value="4">4am</option>
+        <option {% if member.reminder_email_time == 5 %}selected="selected"{% endif %} value="5">5am</option>
+        <option {% if member.reminder_email_time == 6 %}selected="selected"{% endif %} value="6">6am</option>
+        <option {% if member.reminder_email_time == 7 %}selected="selected"{% endif %} value="7">7am</option>
+        <option {% if member.reminder_email_time == 8 %}selected="selected"{% endif %} value="8">8am</option>
+        <option {% if member.reminder_email_time == 9 %}selected="selected"{% endif %} value="9">9am</option>
+        <option {% if member.reminder_email_time == 10 %}selected="selected"{% endif %} value="10">10am</option>
+        <option {% if member.reminder_email_time == 11 %}selected="selected"{% endif %} value="11">11am</option>
+        <option {% if member.reminder_email_time == 12 %}selected="selected"{% endif %} value="12">12pm</option>
+        <option {% if member.reminder_email_time == 13 %}selected="selected"{% endif %} value="13">1pm</option>
+        <option {% if member.reminder_email_time == 14 %}selected="selected"{% endif %} value="14">2pm</option>
+        <option {% if member.reminder_email_time == 15 %}selected="selected"{% endif %} value="15">3pm</option>
+        <option {% if member.reminder_email_time == 16 %}selected="selected"{% endif %} value="16">4pm</option>
+        <option {% if member.reminder_email_time == 17 %}selected="selected"{% endif %} value="17">5pm</option>
+        <option {% if member.reminder_email_time == 18 %}selected="selected"{% endif %} value="18">6pm</option>
+        <option {% if member.reminder_email_time == 19 %}selected="selected"{% endif %} value="19">7pm</option>
+        <option {% if member.reminder_email_time == 20 %}selected="selected"{% endif %} value="20">8pm</option>
+        <option {% if member.reminder_email_time == 21 %}selected="selected"{% endif %} value="21">9pm</option>
+        <option {% if member.reminder_email_time == 22 %}selected="selected"{% endif %} value="22">10pm</option>
+        <option {% if member.reminder_email_time == 23 %}selected="selected"{% endif %} value="23">11pm</option>
+      </select>
     </div>
+  </div>
+</div>
     <div class="control-group controls">
       <button class="btn btn-large btn-primary" type="submit">Change your info</button>
     </div>
   </form>
+
+
 
 
 

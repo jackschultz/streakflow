@@ -16,10 +16,11 @@ def reminder_emails():
   members = Member.objects.filter(subscribed_reminder_email=True)
   #now we want to filter members for the correct reminder time that they want.
 
-  hour = 22
-  minute = 0
 
   for member in members:
+    import pdb;pdb.set_trace()
+    hour = member.reminder_email_time
+    minute = 0
     mem_time = member.current_time()
     mem_time_hour = mem_time.hour
     mem_time_minute = mem_time.minute/30 * 30 #deals with how long it takes to go through all

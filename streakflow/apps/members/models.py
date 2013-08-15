@@ -13,6 +13,7 @@ class Member(models.Model):
   time_zone = models.CharField(default='US/Eastern', max_length=30)
   subscribed_overall_email = models.BooleanField(default=True)
   subscribed_reminder_email = models.BooleanField(default=True)
+  reminder_email_time = models.IntegerField(default=22)
 
   def save(self, *args, **kwargs):
     if not self.pk:

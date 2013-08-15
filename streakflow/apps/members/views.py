@@ -46,8 +46,9 @@ def member_update(request):
   context['member'] = member
   context['timezones'] = pytz.common_timezones
   if request.method == 'POST':
-    timezone = request.POST['time_zone']
-    if timezone not in pytz.common_timezones:
+    timezone = request.POST.get('time_zone',None)
+    email_reminder_time = request.POST.get('email_reminder_time',None)
+    if timezone not in pytz.common_timezones or int(email_reminder_time) not in range(23):
       #fail right here and go back
       context = {}
       context['member'] = member
@@ -55,11 +56,15 @@ def member_update(request):
       return render_to_response('members/update.html',context,context_instance=RequestContext(request))
     else:
       member.time_zone = timezone
+      member.reminder_email_time = int(email_reminder_time)
       overall_email = request.POST.get('subscribed_overall_email',False)
       member.subscribed_overall_email = True if overall_email else False
       reminder_email = request.POST.get('subscribed_reminder_email',False)
       member.subscribed_reminder_email = True if reminder_email else False
       member.save()
+      context = {}
+      context['member'] = member
+      context['timezones'] = pytz.common_timezones
       return render_to_response('members/update.html',context,context_instance=RequestContext(request))
   else:
     return render_to_response('members/update.html',context,context_instance=RequestContext(request))
