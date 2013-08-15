@@ -30,8 +30,8 @@ Monthly: frame ends {{monthly_time|naturaltime}}
 
 Why are you getting this email? Well first of all, to guilt you into finishing these goals that you wanted to do. Sometimes all you need is to see a reminder, or in the future, just finish your goals earlier, and you won't see this reminder at all! Though we feel like this is a fantastic way to get you motivated, we realize that sometimes, not all people want this.
 
-To unsubscribe to manage what kind of emails you receive, go to your account settings:
+To unsubscribe to manage what kind of emails you receive, go to your account settings
 
 http://www.streakflow.com{% url 'member_update' %}
 
-You can always change your mind by going to your account settings and re-select the emails you want to receive. Keep the streak!
+There, you can manage both if you want to receive the reminder emails, as well as at what time. You can always change your mind by going to your account settings and re-select the emails you want to receive. Keep the streak!
