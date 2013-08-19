@@ -36,8 +36,8 @@ EMAIL_HOST_PASSWORD = 'streakflowishere'
 EMAIL_PORT = 587
 
 #celery info. Need for sending emails and all that if nothign else
-#import djcelery
-#djcelery.setup_loader()
+import djcelery
+djcelery.setup_loader()
 
 BROKER_URL = "amqp://guest:guest@localhost:5672//"
 
@@ -62,6 +62,7 @@ REST_FRAMEWORK = {
     'rest_framework.permissions.IsAuthenticated',
   ),
   'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework.authentication.TokenAuthentication',
     'rest_framework.authentication.SessionAuthentication',
   ),
 #  'DEFAULT_RENDERER_CLASSES': (
@@ -182,6 +183,7 @@ INSTALLED_APPS = (
     'djcelery',
     'mailsnake',
     'rest_framework',
+    'rest_framework.authtoken',
     'registration',
     'south',
     'streakflow.apps.members',
