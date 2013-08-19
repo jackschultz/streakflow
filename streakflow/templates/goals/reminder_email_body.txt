@@ -20,13 +20,13 @@ Weekly: frame ends {{weekly_time|naturaltime}}
 	{%endfor%}
 {% endif %}
 {% if monthly_goals %}
-
 Monthly: frame ends {{monthly_time|naturaltime}}
 	{% for goal in monthly_goals %}
 		{{goal.goal_name}} - completed {{goal.finished}} out of {{goal.num_per_frame}}
 
 	{%endfor%}
 {% endif %}
+Go http://www.streakflow.com/profile to check them off when you're finished!
 
 Why are you getting this email? Well first of all, to guilt you into finishing these goals that you wanted to do. Sometimes all you need is to see a reminder, or in the future, just finish your goals earlier, and you won't see this reminder at all! Though we feel like this is a fantastic way to get you motivated, we realize that sometimes, not all people want this.
 
