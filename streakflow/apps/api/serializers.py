@@ -23,10 +23,11 @@ class LatestTimeFrame(serializers.Field):
   
 class GoalSerializer(serializers.ModelSerializer):
   time_frames = LatestTimeFrame()
+  consecutive = serializers.Field()
   
   class Meta:
     model = Goal
-    fields =('goal_name','id','time_frame_len','num_per_frame','time_frames',)
+    fields =('goal_name','id','time_frame_len','num_per_frame','time_frames','consecutive')
 
   
 class GoalOverviewSerializer(serializers.ModelSerializer):
