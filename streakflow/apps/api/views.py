@@ -50,9 +50,11 @@ class GoalDetail(APIView):
   def get(self, request, goal_pk, format=None):
     goal = self.get_object(request, goal_pk)
     serializer = GoalOverviewSerializer(goal)
-    return Response(serializer.data)
+    info = serializer.data
+    info['consecutive'] = goal.consecutive_timeframes()
+    return Response(info)
 
-  def put(self, request, goal_pk, format=None):
+  def post(self, request, goal_pk, format=None):
     goal = self.get_object(request, goal_pk)
     serializer = GoalSterializer(goal, data=request.DATA)
     if serializer.is_valid():
