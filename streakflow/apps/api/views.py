@@ -31,12 +31,13 @@ class GoalList(mixins.CreateModelMixin, APIView):
   
   def post(self, request, format=None):
     data = request.DATA
-    data['time_frames'] = []
-    data['consecutive'] = 0
-    serializer = GoalSerializer(data=data, partial=True)
+    import pdb;pdb.set_trace()
+    serializer = GoalSerializer(data=data)#, partial=True)
     if serializer.is_valid():
       serializer.object.member = self.request.user.get_profile()
       serializer.save()
+      serializer.object.update_timeframes()
+      serializer.object.consecutive = 0
       return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
