@@ -20,8 +20,13 @@ class GoalList(mixins.CreateModelMixin, APIView):
     for goal in goals:
       goal.update_timeframes()
       goal.time_frames = [goal.time_frames.latest()]
+      goal.consecutive = consecutive_timeframes()
     serializer = GoalSerializer(goals, many=True)
-    return Response(serializer.data)
+    info = serializer.data
+    info['daily_time'] = member.time_left_daily()
+    info['weekly_time'] = member.time_left_weekly()
+    info['monthly_time'] = member.time_left_monthly()
+    return Response(info)
   
   def post(self, request, format=None):
     serializer = GoalSerializer(data=request.DATA)
