@@ -4,6 +4,9 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+from streakflow.apps.members.forms import UserRegistrationForm
+from registration.backends.default.views import RegistrationView
+from streakflow.apps.members.views import MemberRegistrationView
 
 urlpatterns = patterns('',
     # Examples:
@@ -16,6 +19,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+    #url(r'^accounts/register/$', 'streakflow.apps.members.views.register', name='registration_register'),
+    #url(r'^accounts/register/$', 'registration.views.RegistrationView', kwargs={'form_class':UserRegistrationForm}, name='registration_register'),
+    url(r'^accounts/register/$', MemberRegistrationView.as_view(form_class=UserRegistrationForm, success_url='registration_complete'),name='registration_register'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^profile/', include('streakflow.apps.members.urls')),
     url(r'^goals/', include('streakflow.apps.goals.urls')),

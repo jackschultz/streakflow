@@ -31,6 +31,27 @@
     <div class="control-group">
       <input id="id_password2" name="password2" placeholder="password again!" type="password"/>
     </div>
+    <script type="text/javascript">
+        var DjangoRecaptchaOptions = {
+      "lang": "en",
+      "theme": "clean"
+    };
+        if (typeof RecaptchaOptions !== 'object') {
+            RecaptchaOptions = DjangoRecaptchaOptions;
+        } else {
+            for (key in DjangoRecaptchaOptions) {
+                RecaptchaOptions[key] = DjangoRecaptchaOptions[key];
+            }
+        }
+    </script>
+    <script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k=6LdzZOYSAAAAAMh-cWjEzrQvN-yATIP_W4H5izWl&hl=en"></script>
+    <noscript>
+      <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LdzZOYSAAAAAMh-cWjEzrQvN-yATIP_W4H5izWl&hl=en" height="300" width="500" frameborder="0"></iframe><br />
+      <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+      <input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
+    </noscript>
+
+
     <div class="control-group">
       <button class="btn btn-large btn-primary" type="submit">Sign Up</button>
     </div>
@@ -38,4 +59,7 @@
   <div class="">
     Already a member? <a href="{% url 'auth_login' %}">Login</a>
   </div>
+
+
+
 {% endblock %}

@@ -55,6 +55,10 @@ CELERYBEAT_SCHEDULE = {
 
 MANDRILL_API_KEY = 'FdYZou0jtJNao2sQTU1O_Q'
 
+#recaptcha
+RECAPTCHA_PUBLIC_KEY = '6LdzZOYSAAAAAMh-cWjEzrQvN-yATIP_W4H5izWl'
+RECAPTCHA_PRIVATE_KEY = '6LdzZOYSAAAAALxBx018FLZFxJ6G0oDjPl_MWH5Y'
+
 
 #for the framework
 REST_FRAMEWORK = {
@@ -182,6 +186,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'djcelery',
     'mailsnake',
+    'captcha',
     'rest_framework',
     'rest_framework.authtoken',
     'registration',

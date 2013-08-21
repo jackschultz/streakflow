@@ -8,8 +8,39 @@ from django.core.urlresolvers import reverse
 from django.db.models import Max
 from models import Member
 from streakflow.apps.goals.models import Goal
+from registration.views import RegistrationView
+from forms import UserRegistrationForm
 import pytz
-import pdb
+from django.views.decorators.csrf import csrf_exempt
+
+
+from django.conf import settings
+from django.contrib.sites.models import RequestSite
+from django.contrib.sites.models import Site
+
+from django.utils.decorators import method_decorator
+from registration import signals
+from registration.models import RegistrationProfile
+class MemberRegistrationView(RegistrationView):
+
+  @method_decorator(csrf_exempt)
+  def dispatch(self, *args, **kwargs):
+    return super(MemberRegistrationView, self).dispatch(*args, **kwargs)
+  
+  def register(self, request, **cleaned_data):
+    #return super(MemberRegistrationView, self).register(request,**cleaned_data)
+    username, email, password = cleaned_data['username'], cleaned_data['email'], cleaned_data['password1']
+    if Site._meta.installed:
+        site = Site.objects.get_current()
+    else:
+        site = RequestSite(request)
+    new_user = RegistrationProfile.objects.create_inactive_user(username, email,
+                                                                password, site)
+    signals.user_registered.send(sender=self.__class__,
+                                 user=new_user,
+                                 request=request)
+    return new_user
+  
 
 def member_profile(request):
   if not request.user.is_authenticated():
