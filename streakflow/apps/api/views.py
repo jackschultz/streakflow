@@ -31,7 +31,6 @@ class GoalList(mixins.CreateModelMixin, APIView):
   
   def post(self, request, format=None):
     data = request.DATA
-    import pdb;pdb.set_trace()
     serializer = GoalSerializer(data=data)#, partial=True)
     if serializer.is_valid():
       serializer.object.member = self.request.user.get_profile()
