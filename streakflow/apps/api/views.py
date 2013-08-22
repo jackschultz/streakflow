@@ -132,7 +132,7 @@ class MemberDetail(APIView):
 
   def post(self, request, format=None):
     member = self.get_object(request)
-    serializer = MemberSterializer(member, data=request.DATA)
+    serializer = MemberSerializer(member, data=request.DATA)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data)
