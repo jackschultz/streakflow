@@ -6,7 +6,7 @@ urlpatterns = patterns('streakflow.apps.goals.views',
   url(r'^goals$', views.GoalList.as_view()),
   url(r'^goals/(?P<goal_pk>\d+)$', views.GoalDetail.as_view()),
   url(r'^goals/(?P<goal_pk>\d+)/update/(?P<obj_pk>\d+)$', views.ObjectiveDetail.as_view()),
-  url(r'^members/(?P<member_pk>\d+)$', views.MemberDetail.as_view()),
+  url(r'^member$', views.MemberDetail.as_view()),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -117,18 +117,15 @@ class MemberDetail(APIView):
   model = Member
   permission_classes = (IsOwner,)
 
-  def get_object(self, request, pk):
+  def get_object(self, request):
     try:
-      member = Member.objects.get(pk=pk)
-      #have to deal with anonymous user not having below...
-      member_request = request.user.get_profile()
-      self.check_object_permissions(request, member)
+      member = request.user.get_profile()
       return member
     except Member.DoesNotExist:
       raise Http404
 
-  def get(self, request, member_pk, format=None):
-    member = self.get_object(request, member_pk)
+  def get(self, request, format=None):
+    member = self.get_object(request)
     serializer = MemberSerializer(member)
     return Response(serializer.data)
 
