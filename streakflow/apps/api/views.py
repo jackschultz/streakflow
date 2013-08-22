@@ -130,3 +130,10 @@ class MemberDetail(APIView):
     info['timezones'] = pytz.common_timezones
     return Response(info)
 
+  def post(self, request, format=None):
+    member = self.get_object(request)
+    serializer = MemberSterializer(member, data=request.DATA)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
