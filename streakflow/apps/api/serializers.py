@@ -40,10 +40,9 @@ class GoalOverviewSerializer(serializers.ModelSerializer):
 
 
 class MemberSerializer(serializers.ModelSerializer):
-  goals = GoalSerializer(many=True)
-
   class Meta:
     model = Member
+    fields =('time_zone','subscribed_overall_email','subscribed_reminder_email','reminder_email_time',)
 
 
 
