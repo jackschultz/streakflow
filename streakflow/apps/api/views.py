@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics, exceptions, mixins
 from permissions import IsOwner
 from django.db.models import Max
-import pdb
+import pytz
 
 
 class GoalList(mixins.CreateModelMixin, APIView):
@@ -127,5 +127,7 @@ class MemberDetail(APIView):
   def get(self, request, format=None):
     member = self.get_object(request)
     serializer = MemberSerializer(member)
-    return Response(serializer.data)
+    info = serializer.data
+    info['timezones'] = pytz.common_timezones
+    return Response(info)
 
